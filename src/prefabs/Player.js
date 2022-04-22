@@ -11,20 +11,20 @@ class Player extends Phaser.GameObjects.Sprite {
   }
 
   update() {
-    if(Phaser.Input.Keyboard.JustDown(keySPACE)) {
-      this.isJumping = true;
+  //  if(Phaser.Input.Keyboard.JustDown(keySPACE)) {
+  //    this.isJumping = true;
       //this.sfxJump.play();
-    }
+  //  }
   //  if(!this.isDead) {
       // flip player vertically
   //  } else {
       // keep player moving upright
-        if(!this.isJumping && this.y > borderUISize) {
-          this.y -= this.moveSpeed;
+  //      if(!this.isJumping && this.y > borderUISize) {
+  //        this.y -= this.moveSpeed;
         //  if(!this.isJumping && this.y <= borderUISize) {
         //    this.y += this.moveSpeed;
         //  }
-        }
+  //      }
         
 
   //  }

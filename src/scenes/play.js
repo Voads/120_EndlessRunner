@@ -23,6 +23,9 @@ class Play extends Phaser.Scene {
         
         // add player (p1)
         this.p1Player = new Player(this, game.config.width/2 - 250, game.config.height - borderUISize - borderPadding - 353, 'player').setOrigin(0.5, 0);
+        //player.setBounce(0.2);
+        //player.setCollideWorldBounds(true);
+
         // add enemy 01
         this.enemy01 = new Spaceship(this, game.config.width/2 + 250, game.config.height - borderUISize - borderPadding - 353, 'enemy01').setOrigin(0.5, 0);
         
@@ -95,5 +98,9 @@ class Play extends Phaser.Scene {
         // End game
         this.gameOver = true;
         this.scene.start('menuScene');    
+    }
+
+    playerJump(player) {
+
     }
 }
