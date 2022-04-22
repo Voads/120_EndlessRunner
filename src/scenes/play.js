@@ -11,7 +11,7 @@ class Play extends Phaser.Scene {
     }
 
     create() {
-        game.physics.startSystem(Phaser.Physics.ARCADE);
+        //game.physics.startSystem(Phaser.Physics.ARCADE);
         // place background tile sprite
         this.background = this.add.tileSprite(0, 0, 900, 600, 'background').setOrigin(0, 0);
         // place floor sprite
@@ -85,9 +85,9 @@ class Play extends Phaser.Scene {
             this.enemyHit(this.enemy01);   
         }
 
-        if(Phaser.Input.Keyboard.JustDown(keyF)) {
-            this.playerJump;
-        }
+        // if(Phaser.Input.Keyboard.JustDown(keyF)) {
+        //     this.playerJump;
+        // }
     }
 
     checkCollision(player, enemy) {
