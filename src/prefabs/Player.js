@@ -6,7 +6,27 @@ class Player extends Phaser.GameObjects.Sprite {
 
       this.moveSpeed = 5;
       this.isJumping = false;    // track jump status
+      this.isDead = false;       // track top/bottom level location
     //  this.sfxJump = scene.sound.add(''); // add sfx
+  }
 
+  update() {
+    if(Phaser.Input.Keyboard.JustDown(keySPACE)) {
+      this.isJumping = true;
+      //this.sfxJump.play();
     }
+  //  if(!this.isDead) {
+      // flip player vertically
+  //  } else {
+      // keep player moving upright
+        if(!this.isJumping && this.y > borderUISize) {
+          this.y -= this.moveSpeed;
+        //  if(!this.isJumping && this.y <= borderUISize) {
+        //    this.y += this.moveSpeed;
+        //  }
+        }
+        
+
+  //  }
+  }
 }
