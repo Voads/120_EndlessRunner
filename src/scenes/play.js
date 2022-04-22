@@ -14,7 +14,7 @@ class Play extends Phaser.Scene {
         // place background tile sprite
         this.background = this.add.tileSprite(0, 0, 900, 600, 'background').setOrigin(0, 0);
         // place floor sprite
-        this.add.sprite(450, 300, 'floor');
+        this.physics.add.sprite(450, 300, 'floor');
         // white borders
         this.add.rectangle(0, 0, game.config.width, borderUISize, 0xFFFFFF).setOrigin(0, 0);
         this.add.rectangle(0, game.config.height - borderUISize, game.config.width, borderUISize, 0xFFFFFF).setOrigin(0, 0);
@@ -22,15 +22,16 @@ class Play extends Phaser.Scene {
         this.add.rectangle(game.config.width - borderUISize, 0, borderUISize, game.config.height, 0xFFFFFF).setOrigin(0, 0);        
         
         // add player (p1)
-        this.p1Player = new Player(this, game.config.width/2 - 250, game.config.height - borderUISize - borderPadding - 353, 'player').setOrigin(0.5, 0);
-        //player.setBounce(0.2);
-        //player.setCollideWorldBounds(true);
+        player = this.physics.add.sprite(game.config.width/2 - 250, game.config.height - borderUISize - borderPadding - 353, 'player').setOrigin(0.5, 0);
+        player.setBounce(0.2);
+        player.setCollideWorldBounds(true);
 
         // add enemy 01
         this.enemy01 = new Spaceship(this, game.config.width/2 + 250, game.config.height - borderUISize - borderPadding - 353, 'enemy01').setOrigin(0.5, 0);
         
         // define keys
         keySPACE = this.input.keyboard.addKey(Phaser.Input.Keyboard.KeyCodes.SPACE);
+        keyJUMP = this.input.keyboard.addKey(Phaser.Input.Keyboard.KeyCodes.F);
         
         // initialize score
         this.p1Score = 0;
@@ -101,6 +102,9 @@ class Play extends Phaser.Scene {
     }
 
     playerJump(player) {
-
+        if (KeyF.isDown && player.body.touching.ground)
+{
+    player.setVelocityY(-330);
+}
     }
 }
