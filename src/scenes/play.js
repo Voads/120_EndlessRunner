@@ -87,8 +87,8 @@ class Play extends Phaser.Scene {
 
     }
  
-    update(){
-        // initialize timer
+    update(){         
+        //keep track of time
         this.clockTime += 1;
         if(this.clockTime >= 60){
             this.p1Score += 1;

@@ -24,11 +24,16 @@ class Player extends Phaser.Physics.Arcade.Sprite {
     update() {
         //handle jumping
         if(this.isGrounded){
+            // console.log(this.isGrounded);
             if(keyUP.isDown) {
-                console.log("JUMPING...");
+                console.log("Player.js JUMPING...");
                 this.setVelocityY(-this.jumpSpeed);
                 //this.sfxJump.play();
             }
+            
+        }
+        else{
+            // console.log(this.isGrounded);
         }
 
         if(!this.isDead) {
