@@ -15,7 +15,10 @@ class Play extends Phaser.Scene {
         // place background tile sprite
         this.background = this.add.tileSprite(0, 0, 900, 600, 'background').setOrigin(0, 0);
         // place floor sprite
-        this.physics.add.sprite(450, 300, 'floor');
+        this.floor = this.physics.add.sprite(450, 300, 'floor');
+        this.floor.setImmovable(true);
+        this.floor.body.allowGravity = false; 
+
         // white borders
         this.add.rectangle(0, 0, game.config.width, borderUISize, 0xFFFFFF).setOrigin(0, 0);
         this.add.rectangle(0, game.config.height - borderUISize, game.config.width, borderUISize, 0xFFFFFF).setOrigin(0, 0);
@@ -28,8 +31,14 @@ class Play extends Phaser.Scene {
         this.player.setCollideWorldBounds(true);
 
         // add enemy 01
-        this.enemy01 = new Spaceship(this, game.config.width/2 + 250, game.config.height - borderUISize - borderPadding - 353, 'enemy01').setOrigin(0.5, 0);
+        this.enemy01 = new Enemy(this, game.config.width/2 + 250, game.config.height - borderUISize - borderPadding - 353, 'enemy01').setOrigin(0.5, 0);
         
+
+        //add colliders
+        this.physics.add.collider(this.player, this.enemy01);
+        this.physics.add.collider(this.player, this.floor);
+
+
         // define keys
         this.keySPACE = this.input.keyboard.addKey(Phaser.Input.Keyboard.KeyCodes.SPACE);
         this.keyJUMP = this.input.keyboard.addKey(Phaser.Input.Keyboard.KeyCodes.F);
