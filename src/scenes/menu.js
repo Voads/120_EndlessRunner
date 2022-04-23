@@ -24,7 +24,7 @@ class Menu extends Phaser.Scene {
         // show menu text
         this.add.text(game.config.width/2, game.config.height/2 - borderUISize - 
         borderPadding, ' Endless Runner Playtest Build', menuConfig).setOrigin(0.5);
-        this.add.text(game.config.width/2, game.config.height/2, ' Use (SPACE) to Jump ', 
+        this.add.text(game.config.width/2, game.config.height/2, ' Use (UP ARROW) to Jump ', 
         menuConfig).setOrigin(0.5);
         this.add.text(game.config.width/2, game.config.height/2 + borderUISize + 
         borderPadding, ' Press (SPACE) to Start ', menuConfig).setOrigin(0.5);
@@ -37,7 +37,7 @@ class Menu extends Phaser.Scene {
         if (Phaser.Input.Keyboard.JustDown(keySPACE)) {
           // game start
           game.settings = {
-            enemySpeed: 2,     
+            enemySpeed: 3,     
           }
           this.scene.start('playScene');    
         }
