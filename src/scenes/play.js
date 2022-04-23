@@ -15,6 +15,8 @@ class Play extends Phaser.Scene {
 
     
     create() {
+
+        this.physics.world.setFPS(65);
         //game.physics.startSystem(Phaser.Physics.ARCADE);
         // place background tile sprite
         this.background = this.add.tileSprite(0, 0, 900, 600, 'background').setOrigin(0, 0);
@@ -45,8 +47,8 @@ class Play extends Phaser.Scene {
         // GAME OVER flag
         this.gameOver = false; 
         
-        //add colliders
-        this.physics.add.collider(this.player, this.enemy01, this.enemyHit, null, this)
+        //add collider relationships
+        this.physics.add.collider(this.player, this.enemy01, this.enemyHit, null, this); // calls the enemyHit function on collision with player
 
         this.physics.add.collider(this.player, this.floor);
         this.physics.add.collider(this.enemy01, this.floor);
@@ -108,19 +110,13 @@ class Play extends Phaser.Scene {
             this.playerJump(this.player);
             this.enemy01.update();               // update enemy 01 sprite
         }   
- 
-        // check collisions
-        //game.physics.arcade.collide(this.enemy01, this.player)
-        // if(this.checkCollision(this.p1Player, this.enemy01)) {
-        //     //this.enemyHit(this.enemy01);
-        //     console.log('enemy Hit');   
-        // }
 
         // if(Phaser.Input.Keyboard.JustDown(keyF)) {
         //     this.playerJump;
         // }
     }
 
+    //collision is now checked in the create function
     checkCollision(player, enemy) {
         // simple AABB checking
         if (this.player.x < this.enemy01.x + this.enemy01.width && 
@@ -143,13 +139,13 @@ class Play extends Phaser.Scene {
 
     playerJump(player) {
 
-        if ((keyUP.isDown) && player.body.touching.down)
-        {
-            console.log("JUMPING...");
-            player.setVelocityY(-player.jumpSpeed);
-        }
+        // if ((keyUP.isDown) && player.body.touching.down)
+        // {
+        //     console.log("JUMPING...");
+        //     player.setVelocityY(-player.jumpSpeed);
+        // }
 
-        //control the isGrounded variable
+        //tells player.js whether or not the classes object isGrounded
         if (player.body.touching.down){
             player.isGrounded = true;
         } else {

@@ -37,7 +37,7 @@ class Menu extends Phaser.Scene {
         if (Phaser.Input.Keyboard.JustDown(keySPACE)) {
           // game start
           game.settings = {
-            enemySpeed: 7,     
+            enemySpeed: 6,     
           }
           this.scene.start('playScene');    
         }

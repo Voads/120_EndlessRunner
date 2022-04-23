@@ -22,21 +22,26 @@ class Player extends Phaser.Physics.Arcade.Sprite {
   }
 
     update() {
-    //     if(Phaser.Input.Keyboard.JustDown(keySPACE)) {
-    //         this.isJumping = true;
-    //         this.sfxJump.play();
-    //     }
-    //     if(!this.isDead) {
-    //         //flip player vertically
-    //     } else {
-    //         //keep player moving upright
-    //         if(!this.isJumping && this.y > borderUISize) {
-    //             this.y -= this.moveSpeed;
-    //         }
-    //         if(!this.isJumping && this.y <= borderUISize) {
-    //             this.y += this.moveSpeed;
-    //         }
-    //    }
+        //handle jumping
+        if(this.isGrounded){
+            if(keyUP.isDown) {
+                console.log("JUMPING...");
+                this.setVelocityY(-this.jumpSpeed);
+                //this.sfxJump.play();
+            }
+        }
+
+        if(!this.isDead) {
+            //flip player vertically
+        } else {
+            // //keep player moving upright
+            // if(!this.isJumping && this.y > borderUISize) {
+            //     this.y -= this.moveSpeed;
+            // }
+            // if(!this.isJumping && this.y <= borderUISize) {
+            //     this.y += this.moveSpeed;
+            // }
+       }
            
     // //left/right movement
     // if (keyLEFT.isDown && this.x >= borderUISize + this.width/2){
