@@ -13,6 +13,7 @@ class Play extends Phaser.Scene {
         this.load.image('enemy01', './assets/GB-enemy.png');
     }
 
+    
     create() {
         //game.physics.startSystem(Phaser.Physics.ARCADE);
         // place background tile sprite
@@ -40,12 +41,13 @@ class Play extends Phaser.Scene {
         this.add.rectangle(0, game.config.height - borderUISize, game.config.width, borderUISize, 0xFFFFFF).setOrigin(0, 0);
         this.add.rectangle(0, 0, borderUISize, game.config.height, 0xFFFFFF).setOrigin(0, 0);
         this.add.rectangle(game.config.width - borderUISize, 0, borderUISize, game.config.height, 0xFFFFFF).setOrigin(0, 0);        
-
-
+        
+        // GAME OVER flag
+        this.gameOver = false; 
+        
         //add colliders
-        this.physics.add.collider(this.player, this.enemy01, function (player, enemy) {
-            console.log('colliding with enemy');
-        });
+        this.physics.add.collider(this.player, this.enemy01, this.enemyHit, null, this)
+
         this.physics.add.collider(this.player, this.floor);
         this.physics.add.collider(this.enemy01, this.floor);
 
@@ -81,8 +83,6 @@ class Play extends Phaser.Scene {
         this.scoreUI = this.add.text(borderUISize + borderPadding, borderUISize + borderPadding*2, 
             this.p1Score, menuConfig);
 
-        // GAME OVER flag
-        this.gameOver = false; 
     }
  
     update(){
@@ -110,6 +110,7 @@ class Play extends Phaser.Scene {
         }   
  
         // check collisions
+        //game.physics.arcade.collide(this.enemy01, this.player)
         // if(this.checkCollision(this.p1Player, this.enemy01)) {
         //     //this.enemyHit(this.enemy01);
         //     console.log('enemy Hit');   
