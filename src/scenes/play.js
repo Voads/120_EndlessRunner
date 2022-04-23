@@ -3,40 +3,45 @@ class Play extends Phaser.Scene {
         super("playScene");
     }
     preload(){
-    // load image sprites
-    this.load.image('background', './assets/GB-background.png');
-    this.load.image('floor', './assets/GB-floor.png');
-    this.load.image('player', './assets/GB-player.png');
-    this.load.image('enemy01', './assets/GB-enemy.png');
+        // load image sprites
+        this.load.image('background', './assets/GB-background.png');
+        this.load.image('floor', './assets/GB-floor.png');
+        this.load.image('player', './assets/GB-player.png');
+        this.load.image('enemy01', './assets/GB-enemy.png');
     }
 
     create() {
         //game.physics.startSystem(Phaser.Physics.ARCADE);
         // place background tile sprite
         this.background = this.add.tileSprite(0, 0, 900, 600, 'background').setOrigin(0, 0);
-        // place floor sprite
+        
+        // place floor sprite make sure it doesn't move
         this.floor = this.physics.add.sprite(450, 300, 'floor');
         this.floor.setImmovable(true);
         this.floor.body.allowGravity = false; 
+
+        // add enemy 01
+        this.enemy01 = new Enemy(this, game.config.width/2 + 250, game.config.height/2 -250, 'enemy01').setOrigin(0.5, 0);
+        
+        // add player (p1)
+        //this.player = this.physics.add.sprite(game.config.width/2 - 250, game.config.height - borderUISize - borderPadding - 353, 'player').setOrigin(0.5, 0);
+        this.player = new Player(this, game.config.width/2 - 250, game.config.height/2 - 250, 'player').setOrigin (0.5,0);
+
+        
 
         // white borders
         this.add.rectangle(0, 0, game.config.width, borderUISize, 0xFFFFFF).setOrigin(0, 0);
         this.add.rectangle(0, game.config.height - borderUISize, game.config.width, borderUISize, 0xFFFFFF).setOrigin(0, 0);
         this.add.rectangle(0, 0, borderUISize, game.config.height, 0xFFFFFF).setOrigin(0, 0);
         this.add.rectangle(game.config.width - borderUISize, 0, borderUISize, game.config.height, 0xFFFFFF).setOrigin(0, 0);        
-        
-        // add player (p1)
-        this.player = this.physics.add.sprite(game.config.width/2 - 250, game.config.height - borderUISize - borderPadding - 353, 'player').setOrigin(0.5, 0);
-        this.player.setBounce(0.2);
-        this.player.setCollideWorldBounds(true);
 
-        // add enemy 01
-        this.enemy01 = new Enemy(this, game.config.width/2 + 250, game.config.height - borderUISize - borderPadding - 353, 'enemy01').setOrigin(0.5, 0);
-        
 
         //add colliders
-        this.physics.add.collider(this.player, this.enemy01);
+        this.physics.add.collider(this.player, this.enemy01, function (player, enemy) {
+            console.log('colliding with enemy');
+        });
         this.physics.add.collider(this.player, this.floor);
+        this.physics.add.collider(this.enemy01, this.floor);
 
 
         // define keys
@@ -91,9 +96,10 @@ class Play extends Phaser.Scene {
         }   
  
         // check collisions
-        if(this.checkCollision(this.p1Player, this.enemy01)) {
-            this.enemyHit(this.enemy01);   
-        }
+        // if(this.checkCollision(this.p1Player, this.enemy01)) {
+        //     //this.enemyHit(this.enemy01);\
+        //     console.log('enemy Hit');   
+        // }
 
         // if(Phaser.Input.Keyboard.JustDown(keyF)) {
         //     this.playerJump;
@@ -102,8 +108,8 @@ class Play extends Phaser.Scene {
 
     checkCollision(player, enemy) {
         // simple AABB checking
-        if (this.player.x < this.enemy01.x + this.enemy01.width - 10 && 
-            this.player.x + this.player.width - 10 > this.enemy01.x && 
+        if (this.player.x < this.enemy01.x + this.enemy01.width && 
+            this.player.x + this.player.width > this.enemy01.x && 
             this.player.y < this.enemy01.y + this.enemy01.height &&
             this.player.height + this.player.y > this.enemy01.y) 
         {
@@ -121,7 +127,7 @@ class Play extends Phaser.Scene {
     }
 
     playerJump(player) {
-        if (this.keyJUMP.isDown || this.keyUP.isDown) //player.body.touching.ground)
+        if ((this.keyUP.isDown) && player.body.touching.down)
         {
             console.log("JUMPING...");
             player.setVelocityY(-330);
