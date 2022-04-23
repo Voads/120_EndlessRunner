@@ -5,6 +5,9 @@ class Play extends Phaser.Scene {
     preload(){
         // load image sprites
         this.load.image('background', './assets/GB-background.png');
+        this.load.image('background_far', './assets/GB-background_far.png');
+        this.load.image('background_mid', './assets/GB-background_mid.png');
+        this.load.image('background_front', './assets/GB-background_front.png');
         this.load.image('floor', './assets/GB-floor.png');
         this.load.image('player', './assets/GB-player.png');
         this.load.image('enemy01', './assets/GB-enemy.png');
@@ -14,6 +17,9 @@ class Play extends Phaser.Scene {
         //game.physics.startSystem(Phaser.Physics.ARCADE);
         // place background tile sprite
         this.background = this.add.tileSprite(0, 0, 900, 600, 'background').setOrigin(0, 0);
+        this.background_far = this.add.tileSprite(0, 0, 900, 600, 'background_far').setOrigin(0, 0);
+        this.background_mid = this.add.tileSprite(0, 0, 900, 600, 'background_mid').setOrigin(0, 0);
+        this.background_front = this.add.tileSprite(0, 0, 900, 600, 'background_front').setOrigin(0, 0);
         
         // place floor sprite make sure it doesn't move
         this.floor = this.physics.add.sprite(450, 300, 'floor');
@@ -92,6 +98,12 @@ class Play extends Phaser.Scene {
  
         // update game objects
         if (!this.gameOver) {
+            //Parallax
+            //this.background.tilePositionX -= 5;
+            this.background_far.tilePositionX += 1;
+            this.background_mid.tilePositionX += 2;
+            this.background_front.tilePositionX += 3;
+
             this.player.update();             // update player sprite
             this.playerJump(this.player);
             this.enemy01.update();               // update enemy 01 sprite
@@ -129,22 +141,18 @@ class Play extends Phaser.Scene {
     }
 
     playerJump(player) {
-        //the keyboard input.on() is more reliable than the input.isDown bool because it can miss quick inputs.  
-        keyUP.on('down', function(){
-            if (player.body.touching.down){
-                console.log("JUMPING...");
-                player.setVelocityY(-player.jumpSpeed);
-            }
-        });
-        //control isGrounded variable
+
+        if ((keyUP.isDown) && player.body.touching.down)
+        {
+            console.log("JUMPING...");
+            player.setVelocityY(-player.jumpSpeed);
+        }
+
+        //control the isGrounded variable
         if (player.body.touching.down){
             player.isGrounded = true;
-        } else
-            { player.isGrounded = false; }
-        // if ((this.keyUP.isDown) && player.body.touching.down)
-        // {
-        //     console.log("JUMPING...");
-        //     player.setVelocityY(-player.jumpSpeed);
-        // }
+        } else {
+            player.isGrounded = false; 
+        }
     }
 }
