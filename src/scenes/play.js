@@ -21,13 +21,13 @@ class Play extends Phaser.Scene {
         this.floor.body.allowGravity = false; 
 
         // add enemy 01
-        this.enemy01 = new Enemy(this, game.config.width/2 + 250, game.config.height/2 -250, 'enemy01').setOrigin(0.5, 0);
+        // spawn enemies off screen
+        this.enemy01 = new Enemy(this, game.config.width + 100, game.config.height/2 -100, 'enemy01').setOrigin(0.5, 0);
         
         // add player (p1)
         //this.player = this.physics.add.sprite(game.config.width/2 - 250, game.config.height - borderUISize - borderPadding - 353, 'player').setOrigin(0.5, 0);
         this.player = new Player(this, game.config.width/2 - 250, game.config.height/2 - 250, 'player').setOrigin (0.5,0);
 
-        
 
         // white borders
         this.add.rectangle(0, 0, game.config.width, borderUISize, 0xFFFFFF).setOrigin(0, 0);
@@ -45,10 +45,12 @@ class Play extends Phaser.Scene {
 
 
         // define keys
-        this.keySPACE = this.input.keyboard.addKey(Phaser.Input.Keyboard.KeyCodes.SPACE);
-        this.keyJUMP = this.input.keyboard.addKey(Phaser.Input.Keyboard.KeyCodes.F);
-        this.keyUP = this.input.keyboard.addKey(Phaser.Input.Keyboard.KeyCodes.UP);
-        this.keyDOWN = this.input.keyboard.addKey(Phaser.Input.Keyboard.KeyCodes.DOWN);
+        keySPACE = this.input.keyboard.addKey(Phaser.Input.Keyboard.KeyCodes.SPACE);
+        keyJUMP = this.input.keyboard.addKey(Phaser.Input.Keyboard.KeyCodes.F);
+        keyUP = this.input.keyboard.addKey(Phaser.Input.Keyboard.KeyCodes.UP);
+        keyDOWN = this.input.keyboard.addKey(Phaser.Input.Keyboard.KeyCodes.DOWN);
+        keyLEFT = this.input.keyboard.addKey(Phaser.Input.Keyboard.KeyCodes.LEFT);
+        keyRIGHT = this.input.keyboard.addKey(Phaser.Input.Keyboard.KeyCodes.RIGHT);
         
         // initialize score
         this.p1Score = 0;
@@ -97,7 +99,7 @@ class Play extends Phaser.Scene {
  
         // check collisions
         // if(this.checkCollision(this.p1Player, this.enemy01)) {
-        //     //this.enemyHit(this.enemy01);\
+        //     //this.enemyHit(this.enemy01);
         //     console.log('enemy Hit');   
         // }
 
@@ -127,10 +129,22 @@ class Play extends Phaser.Scene {
     }
 
     playerJump(player) {
-        if ((this.keyUP.isDown) && player.body.touching.down)
-        {
-            console.log("JUMPING...");
-            player.setVelocityY(-330);
-        }
+        //the keyboard input.on() is more reliable than the input.isDown bool because it can miss quick inputs.  
+        keyUP.on('down', function(){
+            if (player.body.touching.down){
+                console.log("JUMPING...");
+                player.setVelocityY(-player.jumpSpeed);
+            }
+        });
+        //control isGrounded variable
+        if (player.body.touching.down){
+            player.isGrounded = true;
+        } else
+            { player.isGrounded = false; }
+        // if ((this.keyUP.isDown) && player.body.touching.down)
+        // {
+        //     console.log("JUMPING...");
+        //     player.setVelocityY(-player.jumpSpeed);
+        // }
     }
 }
