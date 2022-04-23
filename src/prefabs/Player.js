@@ -8,8 +8,8 @@ class Player extends Phaser.GameObjects.Sprite {
       this.isJumping = false;    // track jump status
       this.isDead = false;       // track top/bottom level location
     //  this.sfxJump = scene.sound.add(''); // add sfx
-      this.setVelocityY(0);
-      this.setGravity(100);
+      //this.setVelocityY(0);
+      this.setGravity(300);
   }
 
   update() {

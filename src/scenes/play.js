@@ -33,7 +33,8 @@ class Play extends Phaser.Scene {
         // define keys
         this.keySPACE = this.input.keyboard.addKey(Phaser.Input.Keyboard.KeyCodes.SPACE);
         this.keyJUMP = this.input.keyboard.addKey(Phaser.Input.Keyboard.KeyCodes.F);
-
+        this.keyUP = this.input.keyboard.addKey(Phaser.Input.Keyboard.KeyCodes.UP);
+        this.keyDOWN = this.input.keyboard.addKey(Phaser.Input.Keyboard.KeyCodes.DOWN);
         
         // initialize score
         this.p1Score = 0;
@@ -111,7 +112,7 @@ class Play extends Phaser.Scene {
     }
 
     playerJump(player) {
-        if (this.keyJUMP.isDown) //player.body.touching.ground)
+        if (this.keyJUMP.isDown || this.keyUP.isDown) //player.body.touching.ground)
         {
             console.log("JUMPING...");
             player.setVelocityY(-330);
