@@ -62,6 +62,9 @@ class Play extends Phaser.Scene {
         keyLEFT = this.input.keyboard.addKey(Phaser.Input.Keyboard.KeyCodes.LEFT);
         keyRIGHT = this.input.keyboard.addKey(Phaser.Input.Keyboard.KeyCodes.RIGHT);
         
+
+        this.pointer = this.input.activePointer;
+
         // initialize score
         this.p1Score = 0;
         // initialize time
@@ -139,12 +142,13 @@ class Play extends Phaser.Scene {
 
     playerJump(player) {
 
-        // if ((keyUP.isDown) && player.body.touching.down)
+        // if ((this.input.activePointer.isDown) && player.body.touching.down)
         // {
         //     console.log("JUMPING...");
         //     player.setVelocityY(-player.jumpSpeed);
         // }
 
+ 
         //tells player.js whether or not the classes object isGrounded
         if (player.body.touching.down){
             player.isGrounded = true;
