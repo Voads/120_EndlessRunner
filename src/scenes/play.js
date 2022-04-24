@@ -9,7 +9,10 @@ class Play extends Phaser.Scene {
         this.load.image('background_mid', './assets/GB-background_mid.png');
         this.load.image('background_front', './assets/GB-background_front.png');
         this.load.image('floor', './assets/GB-floor.png');
-        this.load.image('player', './assets/GB-player.png');
+        this.load.spritesheet('player', './assets/GB-player.png', 
+            { frameWidth: 73, frameHeight: 102 });
+        // this.load.image('player', './assets/GB-player.png');
+        // this.load.image('deadPlayer', './assets/GB-player_dead.png');
         this.load.image('enemy01', './assets/GB-enemy.png');
     }
 
@@ -31,9 +34,21 @@ class Play extends Phaser.Scene {
         this.enemy01 = new Enemy(this, game.config.width + 100, game.config.height/2 -100, 'enemy01').setOrigin(0.5, 0);
         
         // add player (p1)
-        //this.player = this.physics.add.sprite(game.config.width/2 - 250, game.config.height - borderUISize - borderPadding - 353, 'player').setOrigin(0.5, 0);
+        // this.player = this.physics.add.sprite(game.config.width/2 - 250, game.config.height - borderUISize - borderPadding - 353, 'player').setOrigin(0.5, 0);
         this.player = new Player(this, game.config.width/2 - 250, game.config.height/2 - 250, 'player').setOrigin (0.5,0);
-
+        // create animations for player
+        this.anims.create({
+            key: 'alive-run',
+            frames: this.anims.generateFrameNumbers('player', 0),
+            framerate: 1,
+            repeat: -1
+        });
+        this.anims.create({
+            key: 'dead-run',
+            frames: this.anims.generateFrameNumbers('player', {frames: [1]}),
+            framerate: 1,
+            repeat: -1
+        });
 
         // white borders
         this.add.rectangle(0, 0, game.config.width, borderUISize, 0xFFFFFF).setOrigin(0, 0);
@@ -133,8 +148,13 @@ class Play extends Phaser.Scene {
 
     enemyHit(enemy) {
         // End game
-        this.gameOver = true;
-        this.scene.start('menuScene');    
+        if (!this.player.isDead){
+            this.player.handleDeath('deadPlayer');
+            this.player.play('dead-run');
+        } else {
+            this.gameOver = true;
+            this.scene.start('menuScene');    
+        }
     }
 
     playerJump(player) {
@@ -147,7 +167,7 @@ class Play extends Phaser.Scene {
 
  
         //tells player.js whether or not the classes object isGrounded
-        if (player.body.touching.down){
+        if (player.body.touching.down || player.body.touching.up){
             player.isGrounded = true;
         } else {
             player.isGrounded = false; 

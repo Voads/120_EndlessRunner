@@ -2,7 +2,7 @@ class Player extends Phaser.Physics.Arcade.Sprite {
     constructor(scene, x, y, texture) {
       super(scene, x, y, texture);
   
-      
+      this.gravity = 900;
       this.moveSpeed = 4;
       this.moveSpdJumping = 2;
       this.jumpSpeed = 500;
@@ -16,7 +16,7 @@ class Player extends Phaser.Physics.Arcade.Sprite {
 
       this.setCollideWorldBounds(true);
       this.setVelocity(0, 0);
-      this.setGravity(0, 800); // (x,y)
+      this.setGravity(0, this.gravity); // (x,y)
       this.setBounce(0);
     //   this.setDragX(.5);
   }
@@ -24,15 +24,19 @@ class Player extends Phaser.Physics.Arcade.Sprite {
     update() {
         //handle jumping
         if(this.isGrounded){
-            if(keyUP.isDown) {
-                console.log("Player.js JUMPING...");
-                this.setVelocityY(-this.jumpSpeed);
-                //this.sfxJump.play();
+            if(!this.isDead){
+                if(keyUP.isDown) {
+                    console.log("Player.js JUMPING...");
+                    this.setVelocityY(-this.jumpSpeed);
+                    //this.sfxJump.play();
+                }
+            } else{
+                if(keyDOWN.isDown) {
+                    console.log("Player.js JUMPING dead...");
+                    this.setVelocityY(+this.jumpSpeed);
+                    //this.sfxJump.play();
+                }
             }
-            
-        }
-        else{
-            // console.log(this.isGrounded);
         }
 
         if(!this.isDead) {
@@ -65,6 +69,35 @@ class Player extends Phaser.Physics.Arcade.Sprite {
     //     }
     // } 
 
-    }   
+    }
+    
+    handleDeath(deadSprite){
+        this.isDead = true;
+        // reset player position to below the ground
+        this.y = game.config.height/2 + 30;
+        // reverse grav direction
+        this.setGravity(0,(-this.gravity - 550)); //gravity seems to be a lot weaker when reversed
+
+        //flip player object
+        //this.flipY = true;
+
+        //change sprite
+        this.texture = deadSprite;
+
+    }
+    
+    handleRevive(aliveSprite){
+        this.isDead = false;
+        // reset player position to above the ground
+        this.y = game.config.height/2 - 30;
+        // reverse grav direction
+        this.setGravity(0,this.gravity);
+
+        //flip player object
+        //this.flipY = false;
+        
+        //change sprite
+        this.texture = deadSprite;
+    }
 
 }
