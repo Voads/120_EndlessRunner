@@ -2,11 +2,11 @@
 class Enemy extends Phaser.Physics.Arcade.Sprite{
     constructor(scene, x, y, texture, frame){
         super(scene, x, y, texture, frame);
-        scene.add.existing(this);
+
         this.moveSpeed = game.settings.enemySpeed;
         
-        // requied to extend arcade physics class
         scene.add.existing(this);
+        // requied to extend arcade physics class
         scene.physics.add.existing(this);
 
         this.setCollideWorldBounds(false);

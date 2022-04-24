@@ -14,6 +14,7 @@ class Play extends Phaser.Scene {
         // this.load.image('player', './assets/GB-player.png');
         // this.load.image('deadPlayer', './assets/GB-player_dead.png');
         this.load.image('enemy01', './assets/GB-enemy.png');
+        this.load.image('revivePort', './assets/GB-revivePort.png');
     }
 
     
@@ -39,7 +40,7 @@ class Play extends Phaser.Scene {
         // create animations for player
         this.anims.create({
             key: 'alive-run',
-            frames: this.anims.generateFrameNumbers('player', 0),
+            frames: this.anims.generateFrameNumbers('player', {frames: [0]}),
             framerate: 1,
             repeat: -1
         });
@@ -49,6 +50,10 @@ class Play extends Phaser.Scene {
             framerate: 1,
             repeat: -1
         });
+
+        this.revivePort = new RevivePortal(this, game.config.width + 1150, game.config.height/2-23 , 'revivePort').setOrigin(0.5,0.5);
+        this.revivePort.setImmovable(true);
+        this.revivePort.body.allowGravity = false; 
 
         // white borders
         this.add.rectangle(0, 0, game.config.width, borderUISize, 0xFFFFFF).setOrigin(0, 0);
@@ -63,6 +68,7 @@ class Play extends Phaser.Scene {
         this.physics.add.collider(this.player, this.enemy01, this.enemyHit, null, this); // calls the enemyHit function on collision with player
 
         this.physics.add.collider(this.player, this.floor);
+        this.physics.add.overlap(this.player, this.revivePort, this.playerRevive, null, this);
         this.physics.add.collider(this.enemy01, this.floor);
 
 
@@ -75,7 +81,7 @@ class Play extends Phaser.Scene {
         keyRIGHT = this.input.keyboard.addKey(Phaser.Input.Keyboard.KeyCodes.RIGHT);
         
 
-        this.pointer = this.input.activePointer;
+        // this.pointer = this.input.activePointer;
 
         // initialize score
         this.p1Score = 0;
@@ -124,11 +130,9 @@ class Play extends Phaser.Scene {
             this.player.update();             // update player sprite
             this.playerJump(this.player);
             this.enemy01.update();               // update enemy 01 sprite
+            this.revivePort.update();
         }   
 
-        // if(Phaser.Input.Keyboard.JustDown(keyF)) {
-        //     this.playerJump;
-        // }
     }
 
     //collision is now checked in the create function
@@ -157,6 +161,13 @@ class Play extends Phaser.Scene {
         }
     }
 
+    playerRevive(){
+        if(this.player.isDead){
+            this.player.handleRevive();
+            this.player.play('alive-run');
+        }
+    }
+
     playerJump(player) {
 
         // if ((this.input.activePointer.isDown) && player.body.touching.down)
@@ -173,4 +184,6 @@ class Play extends Phaser.Scene {
             player.isGrounded = false; 
         }
     }
+
+
 }
