@@ -14,10 +14,7 @@ class Play extends Phaser.Scene {
     }
 
     
-    create() {
-
-        this.physics.world.setFPS(65);
-        //game.physics.startSystem(Phaser.Physics.ARCADE);
+    create() {       
         // place background tile sprite
         this.background = this.add.tileSprite(0, 0, 900, 600, 'background').setOrigin(0, 0);
         this.background_far = this.add.tileSprite(0, 0, 900, 600, 'background_far').setOrigin(0, 0);
@@ -25,7 +22,7 @@ class Play extends Phaser.Scene {
         this.background_front = this.add.tileSprite(0, 0, 900, 600, 'background_front').setOrigin(0, 0);
         
         // place floor sprite make sure it doesn't move
-        this.floor = this.physics.add.sprite(450, 300, 'floor');
+        this.floor = this.physics.add.sprite(450, 298, 'floor');
         this.floor.setImmovable(true);
         this.floor.body.allowGravity = false; 
 
