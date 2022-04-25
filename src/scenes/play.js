@@ -38,7 +38,13 @@ class Play extends Phaser.Scene {
             maxSize: 20,
             runChildUpdate: true
         });
-        this.revivePort = this.add.group();
+        this.revivePort = this.add.group({
+            classType: RevivePortal,
+            enableBody: true,
+            physicsBodyType: Phaser.Physics.Arcade,
+            maxSize: 5,
+            runChildUpdate: true
+        });
 
         // spawn enemies off screen
         this.enemy01 = new Enemy(this, game.config.width + 100, game.config.height/2 -100, 'enemy01').setOrigin(0.5, 0);
@@ -236,11 +242,10 @@ class Play extends Phaser.Scene {
     spawnPortal(randValue){
         // spawn revive portal
         if(randValue == 2){
-            var newRevPort = new RevivePortal(this, game.config.width + 1150, game.config.height/2-23 , 'revivePort').setOrigin(0.5,0.5);
-            newRevPort.setImmovable(true);
-            newRevPort.body.allowGravity = false; 
-            console.log("respawn add");
+            var newRevPort = this.revivePort.create(game.config.width + 1150, game.config.height/2-23 , 'revivePort').setOrigin(0.5,0.5);
             this.physics.add.overlap(this.player, newRevPort, this.playerRevive, null, this);
+            console.log("respawn add");
+
            }
     }
 
