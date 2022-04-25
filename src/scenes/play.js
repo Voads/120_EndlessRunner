@@ -67,9 +67,9 @@ class Play extends Phaser.Scene {
         });
 
         // revive portal
-        this.revivePort = new RevivePortal(this, game.config.width + 1150, game.config.height/2-23 , 'revivePort').setOrigin(0.5,0.5);
-        this.revivePort.setImmovable(true);
-        this.revivePort.body.allowGravity = false; 
+        // this.revivePort = new RevivePortal(this, game.config.width + 1150, game.config.height/2-23 , 'revivePort').setOrigin(0.5,0.5);
+        // this.revivePort.setImmovable(true);
+        // this.revivePort.body.allowGravity = false; 
 
         // white borders
         this.add.rectangle(0, 0, game.config.width, borderUISize, 0xFFFFFF).setOrigin(0, 0);
@@ -167,7 +167,7 @@ class Play extends Phaser.Scene {
             this.player.update();             // update player sprite
             this.playerJump(this.player);
             this.enemy01.update();               // update enemy 01 sprite
-            this.revivePort.update();
+            //this.revivePort.update();
 
             // for loop too call each update function of a given group 
             // this.enemies.runChildUpdate = true;
@@ -242,8 +242,10 @@ class Play extends Phaser.Scene {
     spawnPortal(randValue){
         // spawn revive portal
         if(randValue == 2){
-            var newRevPort = this.revivePort.create(game.config.width + 1150, game.config.height/2-23 , 'revivePort').setOrigin(0.5,0.5);
+            var newRevPort = this.revivePort.create(game.config.width + 1150, game.config.height/2-23, 'revivePort').setOrigin(0.5,0.5);
             this.physics.add.overlap(this.player, newRevPort, this.playerRevive, null, this);
+            newRevPort.setImmovable(true);
+            newRevPort.body.allowGravity = false; 
             console.log("respawn add");
 
            }
