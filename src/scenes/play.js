@@ -33,7 +33,7 @@ class Play extends Phaser.Scene {
         // add enemy 01
         // spawn enemies off screen
         this.enemy01 = new Enemy(this, game.config.width + 100, game.config.height/2 -100, 'enemy01').setOrigin(0.5, 0);
-        
+
         // add player (p1)
         // this.player = this.physics.add.sprite(game.config.width/2 - 250, game.config.height - borderUISize - borderPadding - 353, 'player').setOrigin(0.5, 0);
         this.player = new Player(this, game.config.width/2 - 250, game.config.height/2 - 250, 'player').setOrigin (0.5,0);
@@ -51,6 +51,7 @@ class Play extends Phaser.Scene {
             repeat: -1
         });
 
+        // revive portal
         this.revivePort = new RevivePortal(this, game.config.width + 1150, game.config.height/2-23 , 'revivePort').setOrigin(0.5,0.5);
         this.revivePort.setImmovable(true);
         this.revivePort.body.allowGravity = false; 
@@ -87,6 +88,9 @@ class Play extends Phaser.Scene {
         this.p1Score = 0;
         // initialize time
         this.clockTime = 0;
+        // initialize counter
+        this.counter = 0;
+        this.random = 0;
         
         // display style score
         let menuConfig = {
@@ -111,9 +115,25 @@ class Play extends Phaser.Scene {
     update(){         
         //keep track of time
         this.clockTime += 1;
-        if(this.clockTime >= 60){
+        this.counter += 1;
+
+        // 1 second timer 65
+        if(this.clockTime >= 65){
             this.p1Score += 1;
             this.clockTime = 0;
+            // random number between 0 and 2
+            this.random = Phaser.Math.Between(0, 2);
+            if(this.random == 1){
+             this.enemy01 = new Enemy(this, game.config.width + 50, game.config.height/2 -100, 'enemy01').setOrigin(0.5, 0);
+             console.log("enemy add");
+            }
+            if(this.random == 2){
+                this.revivePort1 = new RevivePortal(this, game.config.width + 1150, game.config.height/2-23 , 'revivePort').setOrigin(0.5,0.5);
+                this.revivePort1.setImmovable(true);
+                this.revivePort1.body.allowGravity = false; 
+                console.log("respawn add");
+               }
+            this.counter = 0;
         }
  
         // update score
