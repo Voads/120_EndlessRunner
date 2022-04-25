@@ -76,7 +76,7 @@ class Player extends Phaser.Physics.Arcade.Sprite {
         // reset player position to below the ground
         this.y = game.config.height/2 + 30;
         // reverse grav direction
-        this.setGravity(0,(-this.gravity - 550)); //gravity seems to be a lot weaker when reversed
+        this.setGravity(0,(-this.gravity - 500)); //gravity seems to be a lot weaker when reversed
 
         //flip player object
         //this.flipY = true;

@@ -101,6 +101,7 @@ class Play extends Phaser.Scene {
 
         // initialize score
         this.p1Score = 0;
+        this.clockScore = 0;
         // initialize time
         this.clockTime = 0;
         // initialize counter
@@ -129,17 +130,26 @@ class Play extends Phaser.Scene {
  
     update(){         
         //keep track of time
+        this.clockScore += 1;
         this.clockTime += 1;
         this.counter += 1;
 
-        // 1 second timer 24 fps
-        if(this.clockTime >= 400){
+        if(this.clockScore >= 60){
             this.p1Score += 1;
+            this.clockScore = 0;
+        }
+
+        // 1 second timer 24 fps
+        if(this.clockTime >= 300){
             console.log(this.clockTime);
-            this.clockTime = 300;
+            if (this.p1Score > 10){
+                this.clockTime = 230
+            } else{
+                this.clockTime = 200;
+            }
 
             // random number between 0 and 2
-            this.random = Phaser.Math.Between(0, 2);
+            this.random = Phaser.Math.Between(0, 3);
             this.spawnEnemy(this.random);
             this.spawnPortal(this.random);
             // if(this.random == 1){
@@ -251,11 +261,12 @@ class Play extends Phaser.Scene {
     
     spawnPortal(randValue){
         // spawn revive portal
-        if(randValue == 2){
-            var newRevPort = this.revivePort.create(game.config.width + 1150, game.config.height/2-23, 'revivePort').setOrigin(0.5,0.5);
+        if(randValue == 3){
+            var newRevPort = this.revivePort.create(game.config.width + 100, game.config.height/2-23, 'revivePort').setOrigin(0.5,0.5);
             this.physics.add.overlap(this.player, newRevPort, this.playerRevive, null, this);
             newRevPort.setImmovable(true);
             newRevPort.body.allowGravity = false; 
+
             this.clockTime = 0;
             console.log("respawn add");
 
