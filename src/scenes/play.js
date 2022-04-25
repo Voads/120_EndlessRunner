@@ -132,10 +132,12 @@ class Play extends Phaser.Scene {
         this.clockTime += 1;
         this.counter += 1;
 
-        // 1 second timer 65
-        if(this.clockTime >= 65){
+        // 1 second timer 24 fps
+        if(this.clockTime >= 400){
             this.p1Score += 1;
-            this.clockTime = 0;
+            console.log(this.clockTime);
+            this.clockTime = 300;
+
             // random number between 0 and 2
             this.random = Phaser.Math.Between(0, 2);
             this.spawnEnemy(this.random);
@@ -254,6 +256,7 @@ class Play extends Phaser.Scene {
             this.physics.add.overlap(this.player, newRevPort, this.playerRevive, null, this);
             newRevPort.setImmovable(true);
             newRevPort.body.allowGravity = false; 
+            this.clockTime = 0;
             console.log("respawn add");
 
            }
