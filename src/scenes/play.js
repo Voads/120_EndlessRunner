@@ -235,7 +235,15 @@ class Play extends Phaser.Scene {
             this.physics.add.collider(newEnemy, this.floor);
             this.physics.add.collider(this.player, newEnemy, this.enemyHit, null, this); // calls the enemyHit function on collision with player
 
+            
             console.log("enemy add");
+        }
+        if(randValue == 0 || randValue == 2){
+            // spawn upside-down enemies
+            var newEnemyFlipY = this.enemies.create(game.config.width + 50, game.config.height/2 +20, 'enemy01').setOrigin(0.5, 0);
+            newEnemyFlipY.handleUpsideDown(true);
+            this.physics.add.collider(newEnemyFlipY, this.floor);
+            this.physics.add.collider(this.player, newEnemyFlipY, this.enemyHit, null, this); // calls the enemyHit function on collision with player
         }
     }
     
