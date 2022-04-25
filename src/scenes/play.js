@@ -225,9 +225,9 @@ class Play extends Phaser.Scene {
         if(randValue == 1){
             //var newEnemy = new Enemy(this, game.config.width, game.config.height/2 -100, 'enemy01').setOrigin(0.5, 0);
             // get and create last enemy in group array
-            var newEnemy = this.enemies.create(game.config.width, game.config.height/2 -100, 'enemy01').setOrigin(0.5, 0);
+            var newEnemy = this.enemies.create(game.config.width + 50, game.config.height/2 -100, 'enemy01').setOrigin(0.5, 0);
             this.physics.add.collider(newEnemy, this.floor);
-            this.physics.add.collider(this.player, this.enemy01, this.enemyHit, null, this); // calls the enemyHit function on collision with player
+            this.physics.add.collider(this.player, newEnemy, this.enemyHit, null, this); // calls the enemyHit function on collision with player
 
             console.log("enemy add");
         }
