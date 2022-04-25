@@ -30,7 +30,16 @@ class Play extends Phaser.Scene {
         this.floor.setImmovable(true);
         this.floor.body.allowGravity = false; 
 
-        // add enemy 01
+        // create 'groups' for each spawning object
+        this.enemies = this.add.group({
+            classType: Enemy,
+            enableBody: true,
+            physicsBodyType: Phaser.Physics.Arcade,
+            maxSize: 20,
+            runChildUpdate: true
+        });
+        this.revivePort = this.add.group();
+
         // spawn enemies off screen
         this.enemy01 = new Enemy(this, game.config.width + 100, game.config.height/2 -100, 'enemy01').setOrigin(0.5, 0);
 
@@ -123,16 +132,18 @@ class Play extends Phaser.Scene {
             this.clockTime = 0;
             // random number between 0 and 2
             this.random = Phaser.Math.Between(0, 2);
-            if(this.random == 1){
-             this.enemy01 = new Enemy(this, game.config.width + 50, game.config.height/2 -100, 'enemy01').setOrigin(0.5, 0);
-             console.log("enemy add");
-            }
-            if(this.random == 2){
-                this.revivePort1 = new RevivePortal(this, game.config.width + 1150, game.config.height/2-23 , 'revivePort').setOrigin(0.5,0.5);
-                this.revivePort1.setImmovable(true);
-                this.revivePort1.body.allowGravity = false; 
-                console.log("respawn add");
-               }
+            this.spawnEnemy(this.random);
+            this.spawnPortal(this.random);
+            // if(this.random == 1){
+            //  this.enemy01 = new Enemy(this, game.config.width + 50, game.config.height/2 -100, 'enemy01').setOrigin(0.5, 0);
+            //  console.log("enemy add");
+            // }
+            // if(this.random == 2){
+            //     this.revivePort1 = new RevivePortal(this, game.config.width + 1150, game.config.height/2-23 , 'revivePort').setOrigin(0.5,0.5);
+            //     this.revivePort1.setImmovable(true);
+            //     this.revivePort1.body.allowGravity = false; 
+            //     console.log("respawn add");
+            //    }
             this.counter = 0;
         }
  
@@ -151,6 +162,9 @@ class Play extends Phaser.Scene {
             this.playerJump(this.player);
             this.enemy01.update();               // update enemy 01 sprite
             this.revivePort.update();
+
+            // for loop too call each update function of a given group 
+            // this.enemies.runChildUpdate = true;
         }   
 
     }
@@ -205,5 +219,29 @@ class Play extends Phaser.Scene {
         }
     }
 
+    spawnEnemy(randValue){
+        // random number between 0 and 2
+        // spawn enemy
+        if(randValue == 1){
+            //var newEnemy = new Enemy(this, game.config.width, game.config.height/2 -100, 'enemy01').setOrigin(0.5, 0);
+            // get and create last enemy in group array
+            var newEnemy = this.enemies.create(game.config.width, game.config.height/2 -100, 'enemy01').setOrigin(0.5, 0);
+            this.physics.add.collider(newEnemy, this.floor);
+            this.physics.add.collider(this.player, this.enemy01, this.enemyHit, null, this); // calls the enemyHit function on collision with player
+
+            console.log("enemy add");
+        }
+    }
+    
+    spawnPortal(randValue){
+        // spawn revive portal
+        if(randValue == 2){
+            var newRevPort = new RevivePortal(this, game.config.width + 1150, game.config.height/2-23 , 'revivePort').setOrigin(0.5,0.5);
+            newRevPort.setImmovable(true);
+            newRevPort.body.allowGravity = false; 
+            console.log("respawn add");
+            this.physics.add.overlap(this.player, newRevPort, this.playerRevive, null, this);
+           }
+    }
 
 }
