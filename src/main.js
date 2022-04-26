@@ -1,3 +1,8 @@
+// Jeff Row, Vincent Kaufman, Keli Lindsey
+// Undying Wish
+// Date Completed
+// Creative tilt justification
+
 let config = {
     type: Phaser.CANVAS,
     width: 900,
