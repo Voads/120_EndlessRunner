@@ -51,23 +51,23 @@ class Player extends Phaser.Physics.Arcade.Sprite {
             // }
        }
            
-    // //left/right movement
-    // if (keyLEFT.isDown && this.x >= borderUISize + this.width/2){
-    //     if (this.isGrounded){
-    //         this.x -= this.moveSpeed;
-    //         //this.setVelocityX(-this.moveSpeed * 100); 
-    //     } else { //slow speed while in the air
-    //         this.x -= this.moveSpdJumping;
-    //     }
-    // }   
-    // else if (keyRIGHT.isDown && this.x <= game.config.width - borderUISize - this.width/2) {
-    //     if (this.isGrounded){
-    //         this.x += this.moveSpeed;
-    //         // this.setVelocityX(this.moveSpeed * 100);
-    //     } else {
-    //         this.x += this.moveSpdJumping;
-    //     }
-    // } 
+        //left/right movement
+        if (keyLEFT.isDown && this.x >= borderUISize + this.width/2){
+            if (this.isGrounded){
+                this.x -= this.moveSpeed;
+                //this.setVelocityX(-this.moveSpeed * 100); 
+            } else { //slow speed while in the air
+                this.x -= this.moveSpdJumping;
+            }
+        }   
+        else if (keyRIGHT.isDown && this.x <= game.config.width - borderUISize - this.width/2) {
+            if (this.isGrounded){
+                this.x += this.moveSpeed;
+                // this.setVelocityX(this.moveSpeed * 100);
+            } else {
+                this.x += this.moveSpdJumping;
+            }
+        } 
 
     }
     
