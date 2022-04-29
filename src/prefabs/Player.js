@@ -2,55 +2,59 @@ class Player extends Phaser.Physics.Arcade.Sprite {
     constructor(scene, x, y, texture) {
       super(scene, x, y, texture);
   
-      this.gravity = 900;
-      this.moveSpeed = 4;
-      this.moveSpdJumping = 2;
-      this.jumpSpeed = 500;
-      this.isGrounded = false;    // track whether or not player is in the air
-      this.isDead = false;       // track top/bottom level location
-      this.sfxJump = scene.sound.add('jump'); // add sfx
+        this.gravity = 900;
+        this.moveSpeed = 4;
+        this.moveSpdJumping = 2;
+        this.jumpSpeed = 500;
+        this.isGrounded = false;    // track whether or not player is in the air
+        this.isDead = false;       // track top/bottom level location
+        this.sfxJump = scene.sound.add('jump'); // add sfx
       
-      // requied to extend arcade physics class
-      scene.add.existing(this); // add object to existing scene, displayList, updateList
-      scene.physics.add.existing(this);
+        // requied to extend arcade physics class
+        scene.add.existing(this); // add object to existing scene, displayList, updateList
+        scene.physics.add.existing(this);
 
-      this.setCollideWorldBounds(true);
-      this.setVelocity(0, 0);
-      this.setGravity(0, this.gravity); // (x,y)
-      this.setBounce(0);
-    //   this.setDragX(.5);
-  }
+        this.setCollideWorldBounds(true);
+        this.setVelocity(0, 0);
+        this.setGravity(0, this.gravity); // (x,y)
+        this.setBounce(0);
+        //   this.setDragX(.5);
+
+        this.runningSfx = scene.sound.add('run1and2', {
+            mute: false,
+            volume: .3,
+            rate: 1,
+            loop: true,
+            delay: 0
+        });
+
+        this.delayRunningSfx;
+    }
 
     update() {
+
         //handle jumping
         if(this.isGrounded){
-            if(!this.isDead){
-                if(keyUP.isDown) {
-                    console.log("Player.js JUMPING...");
-                    this.setVelocityY(-this.jumpSpeed);
-                    this.sfxJump.play();
-                }
+            // if(!this.runningSfx.isPlaying){
+            //     this.handleLandingToRunSFX();
+            // }
+            if(Phaser.Input.Keyboard.JustDown(keyUP) && this.body.touching.down) {
+                // console.log("Player.js JUMPING...");
+                this.setVelocityY(-this.jumpSpeed);
+                this.sfxJump.play();
+                this.isGrounded = false;
+                this.runningSfx.stop();
             } else{
-                if(keyDOWN.isDown) {
-                    console.log("Player.js JUMPING dead...");
+                if(Phaser.Input.Keyboard.JustDown(keyDOWN) && this.body.touching.up) {
+                    // console.log("Player.js JUMPING dead...");
                     this.setVelocityY(+this.jumpSpeed);
                     this.sfxJump.play();
+                    this.isGrounded = false;
+                    this.runningSfx.stop();
                 }
             }
-        }
+        } else { this.runningSfx.stop(); }
 
-        if(!this.isDead) {
-            //flip player vertically
-        } else {
-            // //keep player moving upright
-            // if(!this.isJumping && this.y > borderUISize) {
-            //     this.y -= this.moveSpeed;
-            // }
-            // if(!this.isJumping && this.y <= borderUISize) {
-            //     this.y += this.moveSpeed;
-            // }
-       }
-           
         //left/right movement
         if (keyLEFT.isDown && this.x >= borderUISize + this.width/2){
             if (this.isGrounded){
@@ -95,4 +99,8 @@ class Player extends Phaser.Physics.Arcade.Sprite {
 
     }
 
+    handleLandingToRunSFX(){
+    //     var delayTime = 50;
+        this.runningSfx.play();
+    }
 }

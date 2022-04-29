@@ -85,7 +85,7 @@ class Play extends Phaser.Scene {
         //add collider relationships
         this.physics.add.collider(this.player, this.enemy01, this.enemyHit, null, this); // calls the enemyHit function on collision with player
 
-        this.physics.add.collider(this.player, this.floor);
+        this.physics.add.collider(this.player, this.floor, this.checkGrounded, null, this);
         this.physics.add.overlap(this.player, this.revivePort, this.playerRevive, null, this);
         this.physics.add.collider(this.enemy01, this.floor);
 
@@ -127,6 +127,9 @@ class Play extends Phaser.Scene {
         // score text
         this.scoreUI = this.add.text(borderUISize + borderPadding, borderUISize + borderPadding*2, 
             this.p1Score, menuConfig);
+
+        //declare timer
+        this.delayRunningSfx;
 
     }
  
@@ -179,7 +182,7 @@ class Play extends Phaser.Scene {
             this.background_front.tilePositionX += 4;
 
             this.player.update();             // update player sprite
-            this.playerJump(this.player);
+            // this.checkGrounded(this.player, this.floor);
             this.enemy01.update();               // update enemy 01 sprite
             //this.revivePort.update();
 
@@ -222,21 +225,43 @@ class Play extends Phaser.Scene {
         }
     }
 
-    playerJump(player) {
+    checkGrounded(player, ground) {
 
-        // if ((this.input.activePointer.isDown) && player.body.touching.down)
-        // {
-        //     console.log("JUMPING...");
-        //     player.setVelocityY(-player.jumpSpeed);
-        // }
+        if (!player.isGrounded){
+            this.sound.play('land');
 
- 
-        //tells player.js whether or not the classes object isGrounded
-        if (player.body.touching.down || player.body.touching.up){
-            player.isGrounded = true;
-        } else {
-            player.isGrounded = false; 
+            
+            // delay timer so running sfx doesn't start at same time as the landing sfx 
+            var delayTime = 50;
+            // reset timer if it is still going
+            if (this.delayRunningSfx){
+                this.delayRunningSfx.reset({
+                    delay: delayTime,                // ms
+                    callback: () =>
+                    {
+                        // this.runningSfx.play();  
+                        this.player.handleLandingToRunSFX();  
+                    },
+                    callbackScope: this,
+                    loop: false,
+                    repeat: 0,
+                    startAt: 0,
+                    timeScale: 1,
+                    paused: false
+                });
+                this.time.addEvent(this.delayRunningSfx);
+            }
+            
+            //start delay timer
+            else {
+                this.delayRunningSfx = this.time.addEvent({delay: delayTime, callback: () =>{
+                    // this.runningSfx.play();
+                    this.player.handleLandingToRunSFX();
+
+                }, callbackScope: this, repeat: 0});
+            }
         }
+        this.player.isGrounded = true;
     }
 
     spawnEnemy(randValue){
@@ -274,5 +299,9 @@ class Play extends Phaser.Scene {
 
            }
     }
+
+    // playLandingSound(){
+    //     this.sound.play('land');
+    // }
 
 }

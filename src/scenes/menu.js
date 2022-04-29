@@ -7,6 +7,7 @@ class Menu extends Phaser.Scene {
        // load audio
        this.load.audio('run1', './assets/sfx/step1.wav');
        this.load.audio('run2', './assets/sfx/step2.wav');
+       this.load.audio('run1and2', './assets/sfx/steps1and2.wav');
        this.load.audio('jump', './assets/sfx/jumping.wav');
        this.load.audio('land', './assets/sfx/landing.wav');
        this.load.audio('res', './assets/sfx/healpop-shyguy014.wav');
