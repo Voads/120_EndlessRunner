@@ -27,6 +27,7 @@ class Player extends Phaser.Physics.Arcade.Sprite {
             loop: true,
             delay: 0
         });
+        this.deathSfx = scene.sound.add('bloodSplat');
 
         this.delayRunningSfx;
     }
@@ -84,6 +85,8 @@ class Player extends Phaser.Physics.Arcade.Sprite {
 
         //flip player object
         //this.flipY = true;
+        this.deathSfx.play();
+        this.runningSfx.stop();
 
     }
     
@@ -99,8 +102,12 @@ class Player extends Phaser.Physics.Arcade.Sprite {
 
     }
 
-    handleLandingToRunSFX(){
+    playRunSFX(){
     //     var delayTime = 50;
         this.runningSfx.play();
+    }
+
+    playDeathSfx(){
+        this.deathSfx.play()
     }
 }

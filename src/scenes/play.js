@@ -240,7 +240,7 @@ class Play extends Phaser.Scene {
                     callback: () =>
                     {
                         // this.runningSfx.play();  
-                        this.player.handleLandingToRunSFX();  
+                        this.player.playRunSFX();  
                     },
                     callbackScope: this,
                     loop: false,
@@ -256,7 +256,7 @@ class Play extends Phaser.Scene {
             else {
                 this.delayRunningSfx = this.time.addEvent({delay: delayTime, callback: () =>{
                     // this.runningSfx.play();
-                    this.player.handleLandingToRunSFX();
+                    this.player.playRunSFX();
 
                 }, callbackScope: this, repeat: 0});
             }
