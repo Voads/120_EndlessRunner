@@ -213,24 +213,27 @@ class Play extends Phaser.Scene {
     }
 
     enemyHit(player, enemy) {
-        // End game
+        // check for player hopping on enemy
         if(!this.player.isDead){
             if(enemy.body.touching.up && !player.isGrounded){
                 enemy.disableBody(true, true);
+                this.player.setVelocityY(-300);
                 this.collectAbility();
             }  
             else{
+                // player dies
                 this.player.handleDeath('deadPlayer');
                 this.player.play('dead-run');
-                }
             }
+        }
         else{
             if(enemy.body.touching.down){
                 enemy.disableBody(true, true);
                 this.collectAbility();
-
+                
             }  
             else {
+            // End game
             this.gameOver = true;
             this.scene.start('menuScene');    
             }
