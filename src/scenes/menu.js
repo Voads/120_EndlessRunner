@@ -12,6 +12,7 @@ class Menu extends Phaser.Scene {
        this.load.audio('land', './assets/sfx/landing.wav');
        this.load.audio('res', './assets/sfx/healpop-shyguy014.wav');
        this.load.audio('bloodSplat', './assets/sfx/bloodsplat2-magnuswaker.wav');
+       this.load.audio('uiSelect', './assets/sfx/SFX_UIGeneric9.wav');
     }
 
     create() {
@@ -39,6 +40,15 @@ class Menu extends Phaser.Scene {
 
         // define keys
         keySPACE = this.input.keyboard.addKey(Phaser.Input.Keyboard.KeyCodes.SPACE);
+
+        // define UI sounds
+        this.uiSelect = this.sound.add('uiSelect', {
+            mute: false,
+            volume: .3,
+            rate: 1,
+            loop: false,
+            delay: 0
+        });
     }
  
     update() {
@@ -47,6 +57,8 @@ class Menu extends Phaser.Scene {
           game.settings = {
             enemySpeed: 6,     
           }
+          //this.sound.play('uiSelect');
+          this.uiSelect.play();
           this.scene.start('playScene');    
         }
     }

@@ -213,6 +213,7 @@ class Play extends Phaser.Scene {
             this.player.handleDeath('deadPlayer');
             this.player.play('dead-run');
         } else {
+            this.player.handleDeathSFX(true);
             this.gameOver = true;
             this.scene.start('menuScene');    
         }
@@ -299,9 +300,5 @@ class Play extends Phaser.Scene {
 
            }
     }
-
-    // playLandingSound(){
-    //     this.sound.play('land');
-    // }
 
 }
