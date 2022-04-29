@@ -10,8 +10,7 @@ class Enemy extends Phaser.Physics.Arcade.Sprite{
         
         this.moveSpeed = game.settings.enemySpeed;
         //this.upsideDown = false;
-        this.gravity = 300;
-
+        this.gravity = 300; 
         this.setCollideWorldBounds(false);
         this.setVelocity(0, 0);
         this.setGravity(0, 330); // (x,y)
@@ -28,7 +27,6 @@ class Enemy extends Phaser.Physics.Arcade.Sprite{
         if(this.x <= 0 - this.width){
             this.destroy(true);
         }
-
 
     }
 

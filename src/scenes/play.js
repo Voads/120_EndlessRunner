@@ -15,6 +15,8 @@ class Play extends Phaser.Scene {
         // this.load.image('deadPlayer', './assets/GB-player_dead.png');
         this.load.image('enemy01', './assets/GB-enemy.png');
         this.load.image('revivePort', './assets/GB-revivePort.png');
+        this.load.image('ability1', './assets/GB-ability1.png');
+
     }
 
     
@@ -24,7 +26,7 @@ class Play extends Phaser.Scene {
         this.background_far = this.add.tileSprite(0, game.config.height/2 + 2, 900, 600, 'background_far').setOrigin(0, .5);
         this.background_mid = this.add.tileSprite(0, game.config.height/2 + 2, 900, 600, 'background_mid').setOrigin(0, .5);
         this.background_front = this.add.tileSprite(0, game.config.height/2 + 2, 900, 600, 'background_front').setOrigin(0, .5);
-        
+    
         // place floor sprite make sure it doesn't move
         this.floor = this.physics.add.sprite(450, game.config.height/2, 'floor').setOrigin(.5, .5); //spawn exactly center
         this.floor.setImmovable(true);
@@ -128,28 +130,30 @@ class Play extends Phaser.Scene {
 
     }
  
-    update(){         
+    update(){                
         //keep track of time
         this.clockScore += 1;
         this.clockTime += 1;
         this.counter += 1;
 
+        // 1 second timer 60 fps
         if(this.clockScore >= 60){
             this.p1Score += 1;
             this.clockScore = 0;
         }
 
-        // 1 second timer 24 fps
-        if(this.clockTime >= 300){
+        // spawn timer 
+        if(this.clockTime >= 60){
             console.log(this.clockTime);
+        
             if (this.p1Score > 10){
-                this.clockTime = 230
+                this.clockTime = 30;
             } else{
-                this.clockTime = 200;
+                this.clockTime = 0;
             }
 
             // random number between 0 and 2
-            this.random = Phaser.Math.Between(0, 3);
+            this.random = Phaser.Math.Between(0, 4);
             this.spawnEnemy(this.random);
             this.spawnPortal(this.random);
             // if(this.random == 1){
@@ -184,7 +188,13 @@ class Play extends Phaser.Scene {
             // for loop too call each update function of a given group 
             // this.enemies.runChildUpdate = true;
         }   
+    
+        if (this.player.reviveAbility &&Phaser.Input.Keyboard.JustDown(keySPACE)) {
+            this.ability1.disableBody(true, true);
+            this.playerRevive();
+            this.player.reviveAbility = false;
 
+        }
     }
 
     //collision is now checked in the create function
@@ -202,14 +212,37 @@ class Play extends Phaser.Scene {
         }
     }
 
-    enemyHit(enemy) {
+    enemyHit(player, enemy) {
         // End game
-        if (!this.player.isDead){
-            this.player.handleDeath('deadPlayer');
-            this.player.play('dead-run');
-        } else {
+        if(!this.player.isDead){
+            if(enemy.body.touching.up && !player.isGrounded){
+                enemy.disableBody(true, true);
+                this.collectAbility();
+            }  
+            else{
+                this.player.handleDeath('deadPlayer');
+                this.player.play('dead-run');
+                }
+            }
+        else{
+            if(enemy.body.touching.down){
+                enemy.disableBody(true, true);
+                this.collectAbility();
+
+            }  
+            else {
             this.gameOver = true;
             this.scene.start('menuScene');    
+            }
+        } 
+    }
+
+    collectAbility(){
+        if(!this.player.reviveAbility){
+            this.player.reviveAbility = true;
+            this.ability1 = this.physics.add.sprite(750, 100, 'ability1').setOrigin(0, .5);
+            this.ability1.setImmovable(true);
+            this.ability1.body.allowGravity = false;
         }
     }
 
@@ -240,17 +273,17 @@ class Play extends Phaser.Scene {
     spawnEnemy(randValue){
         // random number between 0 and 2
         // spawn enemy
-        if(randValue == 1){
+        if(randValue == 0 || randValue == 1){
             //var newEnemy = new Enemy(this, game.config.width, game.config.height/2 -100, 'enemy01').setOrigin(0.5, 0);
             // get and create last enemy in group array
             var newEnemy = this.enemies.create(game.config.width + 50, game.config.height/2 -100, 'enemy01').setOrigin(0.5, 0);
             this.physics.add.collider(newEnemy, this.floor);
             this.physics.add.collider(this.player, newEnemy, this.enemyHit, null, this); // calls the enemyHit function on collision with player
-
+            
             
             console.log("enemy add");
         }
-        if(randValue == 0 || randValue == 2){
+        if(randValue == 2 || randValue == 3){
             // spawn upside-down enemies
             var newEnemyFlipY = this.enemies.create(game.config.width + 50, game.config.height/2 +20, 'enemy01').setOrigin(0.5, 0);
             newEnemyFlipY.handleUpsideDown(true);
@@ -261,7 +294,7 @@ class Play extends Phaser.Scene {
     
     spawnPortal(randValue){
         // spawn revive portal
-        if(randValue == 3){
+        if(randValue == 4){
             var newRevPort = this.revivePort.create(game.config.width + 100, game.config.height/2-23, 'revivePort').setOrigin(0.5,0.5);
             this.physics.add.overlap(this.player, newRevPort, this.playerRevive, null, this);
             newRevPort.setImmovable(true);
@@ -272,5 +305,4 @@ class Play extends Phaser.Scene {
 
            }
     }
-
 }

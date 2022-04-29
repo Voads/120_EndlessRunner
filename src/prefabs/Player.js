@@ -8,6 +8,7 @@ class Player extends Phaser.Physics.Arcade.Sprite {
       this.jumpSpeed = 500;
       this.isGrounded = false;    // track whether or not player is in the air
       this.isDead = false;       // track top/bottom level location
+      this.reviveAbility = false;    // track revive ability 1
       //this.sfxJump = scene.sound.add(''); // add sfx
       
       // requied to extend arcade physics class
