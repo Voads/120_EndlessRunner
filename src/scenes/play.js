@@ -172,9 +172,9 @@ class Play extends Phaser.Scene {
         if (!this.gameOver) {
             //Parallax
             //this.background.tilePositionX -= 5;
-            this.background_far.tilePositionX += 1;
-            this.background_mid.tilePositionX += 2;
-            this.background_front.tilePositionX += 3;
+            this.background_far.tilePositionX += 2;
+            this.background_mid.tilePositionX += 3;
+            this.background_front.tilePositionX += 4;
 
             this.player.update();             // update player sprite
             this.playerJump(this.player);
