@@ -29,9 +29,14 @@ class Player extends Phaser.Physics.Arcade.Sprite {
         });
         this.deathSfx = scene.sound.add('bloodSplat',{
             mute: false,
-            volume: .5,
+            volume: .4,
             rate: 1,
             loop: false,
+            delay: 0
+        });
+        this.reviveSfx = scene.sound.add('res', {
+            volume: .4,
+            loop:false,
             delay: 0
         });
 
@@ -102,6 +107,8 @@ class Player extends Phaser.Physics.Arcade.Sprite {
         this.y = game.config.height/2 - 120;
         // reverse grav direction
         this.setGravity(0,this.gravity);
+
+        this.reviveSfx.play();
 
         //flip player object
         //this.flipY = false;

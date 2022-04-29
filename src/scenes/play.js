@@ -128,8 +128,18 @@ class Play extends Phaser.Scene {
         this.scoreUI = this.add.text(borderUISize + borderPadding, borderUISize + borderPadding*2, 
             this.p1Score, menuConfig);
 
-        //declare timer
+        // declare timer
         this.delayRunningSfx;
+
+        // initialize sounds/music
+        this.aliveMusic = this.sound.add('runningMusic', {
+            volume: .2,
+            rate: 1,
+            loop: true,
+        });
+        this.aliveMusic.play();
+
+
 
     }
  
@@ -215,6 +225,7 @@ class Play extends Phaser.Scene {
         } else {
             this.player.handleDeathSFX(true);
             this.player.handleRunSFX(false);
+            this.aliveMusic.stop();
             this.gameOver = true;
             this.scene.start('menuScene');    
         }

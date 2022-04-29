@@ -10,9 +10,11 @@ class Menu extends Phaser.Scene {
        this.load.audio('run1and2', './assets/sfx/steps1and2.wav');
        this.load.audio('jump', './assets/sfx/jumping.wav');
        this.load.audio('land', './assets/sfx/landing.wav');
-       this.load.audio('res', './assets/sfx/healpop-shyguy014.wav');
+       this.load.audio('resPop', './assets/sfx/healpop-shyguy014.wav');
+       this.load.audio('res', './assets/sfx/res1-silverillusionist.wav');
        this.load.audio('bloodSplat', './assets/sfx/bloodsplat2-magnuswaker.wav');
        this.load.audio('uiSelect', './assets/sfx/SFX_UIGeneric9.wav');
+       this.load.audio('runningMusic', './assets/music/Fairy-Dust.mp3');
     }
 
     create() {
