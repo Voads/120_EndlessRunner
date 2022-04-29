@@ -108,9 +108,14 @@ class Player extends Phaser.Physics.Arcade.Sprite {
 
     }
 
-    playRunSFX(){
-    //     var delayTime = 50;
-        this.runningSfx.play();
+    handleRunSFX(play){
+        if (play){
+            this.runningSfx.play();
+        } else{
+            this.runningSfx.stop();
+        }
+
+
     }
 
     handleDeathSFX(play){

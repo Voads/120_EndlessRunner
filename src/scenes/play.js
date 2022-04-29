@@ -214,6 +214,7 @@ class Play extends Phaser.Scene {
             this.player.play('dead-run');
         } else {
             this.player.handleDeathSFX(true);
+            this.player.handleRunSFX(false);
             this.gameOver = true;
             this.scene.start('menuScene');    
         }
@@ -241,7 +242,7 @@ class Play extends Phaser.Scene {
                     callback: () =>
                     {
                         // this.runningSfx.play();  
-                        this.player.playRunSFX();  
+                        this.player.handleRunSFX(true);  
                     },
                     callbackScope: this,
                     loop: false,
@@ -257,7 +258,7 @@ class Play extends Phaser.Scene {
             else {
                 this.delayRunningSfx = this.time.addEvent({delay: delayTime, callback: () =>{
                     // this.runningSfx.play();
-                    this.player.playRunSFX();
+                    this.player.handleRunSFX(true);
 
                 }, callbackScope: this, repeat: 0});
             }
