@@ -8,7 +8,7 @@ class Player extends Phaser.Physics.Arcade.Sprite {
       this.jumpSpeed = 500;
       this.isGrounded = false;    // track whether or not player is in the air
       this.isDead = false;       // track top/bottom level location
-      //this.sfxJump = scene.sound.add(''); // add sfx
+      this.sfxJump = scene.sound.add('jump'); // add sfx
       
       // requied to extend arcade physics class
       scene.add.existing(this); // add object to existing scene, displayList, updateList
@@ -28,13 +28,13 @@ class Player extends Phaser.Physics.Arcade.Sprite {
                 if(keyUP.isDown) {
                     console.log("Player.js JUMPING...");
                     this.setVelocityY(-this.jumpSpeed);
-                    //this.sfxJump.play();
+                    this.sfxJump.play();
                 }
             } else{
                 if(keyDOWN.isDown) {
                     console.log("Player.js JUMPING dead...");
                     this.setVelocityY(+this.jumpSpeed);
-                    //this.sfxJump.play();
+                    this.sfxJump.play();
                 }
             }
         }

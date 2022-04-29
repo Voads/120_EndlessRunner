@@ -4,7 +4,14 @@ class Menu extends Phaser.Scene {
     }
 
     preload() {
-      }
+       // load audio
+       this.load.audio('run1', './assets/sfx/step1.wav');
+       this.load.audio('run2', './assets/sfx/step2.wav');
+       this.load.audio('jump', './assets/sfx/jumping.wav');
+       this.load.audio('land', './assets/sfx/landing.wav');
+       this.load.audio('res', './assets/sfx/healpop-shyguy014.wav');
+       this.load.audio('bloodSplat', './assets/sfx/bloodsplat2-magnuswaker.wav');
+    }
 
     create() {
        // menu text configuration

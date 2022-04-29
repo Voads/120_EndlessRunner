@@ -4,17 +4,19 @@ class Play extends Phaser.Scene {
     }
     preload(){
         // load image sprites
-        this.load.image('background', './assets/GB-background.png');
-        this.load.image('background_far', './assets/GB-background_far.png');
-        this.load.image('background_mid', './assets/GB-background_mid.png');
-        this.load.image('background_front', './assets/GB-background_front.png');
-        this.load.image('floor', './assets/GB-floor.png');
-        this.load.spritesheet('player', './assets/GB-player.png', 
+        this.load.image('background', './assets/images/GB-background.png');
+        this.load.image('background_far', './assets/images/GB-background_far.png');
+        this.load.image('background_mid', './assets/images/GB-background_mid.png');
+        this.load.image('background_front', './assets/images/GB-background_front.png');
+        this.load.image('floor', './assets/images/GB-floor.png');
+        this.load.spritesheet('player', './assets/images/GB-player.png', 
             { frameWidth: 73, frameHeight: 102 });
         // this.load.image('player', './assets/GB-player.png');
         // this.load.image('deadPlayer', './assets/GB-player_dead.png');
-        this.load.image('enemy01', './assets/GB-enemy.png');
-        this.load.image('revivePort', './assets/GB-revivePort.png');
+        this.load.image('enemy01', './assets/images/GB-enemy.png');
+        this.load.image('revivePort', './assets/images/GB-revivePort.png');
+
+       
     }
 
     
