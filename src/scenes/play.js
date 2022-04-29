@@ -11,11 +11,9 @@ class Play extends Phaser.Scene {
         this.load.image('floor', './assets/images/GB-floor.png');
         this.load.spritesheet('player', './assets/images/GB-player.png', 
             { frameWidth: 73, frameHeight: 102 });
-        // this.load.image('player', './assets/GB-player.png');
-        // this.load.image('deadPlayer', './assets/GB-player_dead.png');
-        this.load.image('enemy01', './assets/GB-enemy.png');
-        this.load.image('revivePort', './assets/GB-revivePort.png');
-        this.load.image('ability1', './assets/GB-ability1.png');
+        this.load.image('enemy', './assets/images/GB-enemy.png');
+        this.load.image('revivePort', './assets/images/GB-revivePort.png');
+        this.load.image('ability1', './assets/images/GB-ability1.png');
 
     }
 
@@ -49,7 +47,7 @@ class Play extends Phaser.Scene {
         });
 
         // spawn enemies off screen
-        this.enemy01 = new Enemy(this, game.config.width + 100, game.config.height/2 -100, 'enemy01').setOrigin(0.5, 0);
+        this.enemy01 = new Enemy(this, game.config.width + 100, game.config.height/2 -100, 'enemy').setOrigin(0.5, 0);
 
         // add player (p1)
         // this.player = this.physics.add.sprite(game.config.width/2 - 250, game.config.height - borderUISize - borderPadding - 353, 'player').setOrigin(0.5, 0);
@@ -138,6 +136,11 @@ class Play extends Phaser.Scene {
             loop: true,
         });
         this.aliveMusic.play();
+        this.enemySplat = this.sound.add('bloodSplat2',{
+            volume: .2,
+            rate: 1,
+            loop: false,
+        });
 
 
 
@@ -226,22 +229,25 @@ class Play extends Phaser.Scene {
     }
 
     enemyHit(player, enemy) {
-        // check for player hopping on enemy
         if(!this.player.isDead){
+            // check for player hopping on enemy
             if(enemy.body.touching.up && !player.isGrounded){
-                enemy.disableBody(true, true);
-                this.player.setVelocityY(-300);
+                this.enemySplat.play();
+                enemy.destroy();
+                this.player.setVelocityY(-450);
                 this.collectAbility();
             }  
+            // player dies
             else{
-                // player dies
                 this.player.handleDeath('deadPlayer');
                 this.player.play('dead-run');
             }
         }
         else{
             if(enemy.body.touching.down){
-                enemy.disableBody(true, true);
+                this.enemySplat.play();
+                enemy.destroy();
+                this.player.setVelocityY(450);
                 this.collectAbility();
                 
             }  
@@ -317,7 +323,7 @@ class Play extends Phaser.Scene {
         if(randValue == 0 || randValue == 1){
             //var newEnemy = new Enemy(this, game.config.width, game.config.height/2 -100, 'enemy01').setOrigin(0.5, 0);
             // get and create last enemy in group array
-            var newEnemy = this.enemies.create(game.config.width + 50, game.config.height/2 -100, 'enemy01').setOrigin(0.5, 0);
+            var newEnemy = this.enemies.create(game.config.width + 50, game.config.height/2 -100, 'enemy').setOrigin(0.5, 0);
             this.physics.add.collider(newEnemy, this.floor);
             this.physics.add.collider(this.player, newEnemy, this.enemyHit, null, this); // calls the enemyHit function on collision with player
             
@@ -326,7 +332,7 @@ class Play extends Phaser.Scene {
         }
         if(randValue == 2 || randValue == 3){
             // spawn upside-down enemies
-            var newEnemyFlipY = this.enemies.create(game.config.width + 50, game.config.height/2 +20, 'enemy01').setOrigin(0.5, 0);
+            var newEnemyFlipY = this.enemies.create(game.config.width + 50, game.config.height/2 +20, 'enemy').setOrigin(0.5, 0);
             newEnemyFlipY.handleUpsideDown(true);
             this.physics.add.collider(newEnemyFlipY, this.floor);
             this.physics.add.collider(this.player, newEnemyFlipY, this.enemyHit, null, this); // calls the enemyHit function on collision with player

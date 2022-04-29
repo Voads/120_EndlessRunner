@@ -3,10 +3,10 @@ class Player extends Phaser.Physics.Arcade.Sprite {
       super(scene, x, y, texture);
   
 
-      this.gravity = 900;
+      this.gravity = 2000;
       this.moveSpeed = 4;
       this.moveSpdJumping = 2;
-      this.jumpSpeed = 500;
+      this.jumpSpeed = 650;
       this.isGrounded = false;    // track whether or not player is in the air
       this.isDead = false;       // track top/bottom level location
       this.reviveAbility = false;    // track revive ability 1
@@ -95,10 +95,8 @@ class Player extends Phaser.Physics.Arcade.Sprite {
         // reset player position to below the ground
         this.y = game.config.height/2 + 30;
         // reverse grav direction
-        this.setGravity(0,(-this.gravity - 500)); //gravity seems to be a lot weaker when reversed
+        this.setGravity(0,(-this.gravity)); 
 
-        //flip player object
-        //this.flipY = true;
         this.deathSfx.play();
         //this.runningSfx.stop();
 
