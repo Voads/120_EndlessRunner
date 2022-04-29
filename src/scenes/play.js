@@ -14,6 +14,7 @@ class Play extends Phaser.Scene {
         this.load.image('enemy', './assets/images/GB-enemy.png');
         this.load.image('revivePort', './assets/images/GB-revivePort.png');
         this.load.image('ability1', './assets/images/GB-ability1.png');
+        this.load.image('bloodParticle', './assets/images/bloodParticle.png');
 
     }
 
@@ -142,8 +143,20 @@ class Play extends Phaser.Scene {
             loop: false,
         });
 
-
-
+        //create particle emitter(s)
+        this.particle = this.add.particles('bloodParticle');
+        //his.particle = this.add.particles('particleOrange');
+        this.bloodEmitter = this.particle.createEmitter({
+            x: 0,
+            y: 0,
+            speed: { min: -400, max: 400 },
+            angle: { min: 0, max: 360 },
+            scale: { start: .7, end: 0, ease: 'Power3' },
+            blandMode: 'ADD',
+            active: false,
+            lifespan: { min: 900, max: 900 },
+            quantity: 4,
+        });
     }
  
     update(){                
@@ -195,6 +208,7 @@ class Play extends Phaser.Scene {
             this.background_far.tilePositionX += 2;
             this.background_mid.tilePositionX += 3;
             this.background_front.tilePositionX += 4;
+            this.bloodEmitter.setPositionX -= game.settings.enemySpeed;
 
             this.player.update();             // update player sprite
             // this.checkGrounded(this.player, this.floor);
@@ -234,6 +248,11 @@ class Play extends Phaser.Scene {
             if(enemy.body.touching.up && !player.isGrounded){
                 this.enemySplat.play();
                 enemy.destroy();
+                //this.bloodEmitter.setPosition(enemy.x, enemy.y);
+                this.bloodEmitter.active = true;
+                this.bloodEmitter.explode(100,enemy.x, enemy.y);
+                this.bloodEmitter.setGravityX(-1050);
+                // this.bloodEmitter.setVelocityX(-game.settings.enemySpeed);
                 this.player.setVelocityY(-450);
                 this.collectAbility();
             }  
@@ -247,6 +266,9 @@ class Play extends Phaser.Scene {
             if(enemy.body.touching.down){
                 this.enemySplat.play();
                 enemy.destroy();
+                this.bloodEmitter.active = true;
+                this.bloodEmitter.explode(100,enemy.x, enemy.y);
+                this.bloodEmitter.setGravityX(-1050);
                 this.player.setVelocityY(450);
                 this.collectAbility();
                 
@@ -349,7 +371,6 @@ class Play extends Phaser.Scene {
 
             this.clockTime = 0;
             console.log("respawn add");
-
            }
     }
 }
