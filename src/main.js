@@ -16,7 +16,7 @@ let config = {
     },
     fps: {
         target: 60,
-        forceSetTimeOut: true
+        forceSetTimeOut: false 
 },
     scene: [ Menu, Play ]
 }
