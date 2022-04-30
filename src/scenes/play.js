@@ -21,13 +21,13 @@ class Play extends Phaser.Scene {
     
     create() {       
         // place background tile sprite
-        this.background = this.add.tileSprite(0, 0, 900, 600, 'background').setOrigin(0, 0);
-        this.background_far = this.add.tileSprite(0, game.config.height/2 + 2, 900, 600, 'background_far').setOrigin(0, .5);
-        this.background_mid = this.add.tileSprite(0, game.config.height/2 + 2, 900, 600, 'background_mid').setOrigin(0, .5);
-        this.background_front = this.add.tileSprite(0, game.config.height/2 + 2, 900, 600, 'background_front').setOrigin(0, .5);
+        this.background = this.add.tileSprite(0, 0, 11100, 800, 'background').setOrigin(0, 0);
+        this.background_far = this.add.tileSprite(0, game.config.height/2 + 2, 1100, 800, 'background_far').setOrigin(0, .5);
+        this.background_mid = this.add.tileSprite(0, game.config.height/2 + 2, 1100, 800, 'background_mid').setOrigin(0, .5);
+        this.background_front = this.add.tileSprite(0, game.config.height/2 + 2, 1100, 800, 'background_front').setOrigin(0, .5);
     
         // place floor sprite make sure it doesn't move
-        this.floor = this.physics.add.sprite(450, game.config.height/2, 'floor').setOrigin(.5, .5); //spawn exactly center
+        this.floor = this.physics.add.sprite(550, game.config.height/2, 'floor').setOrigin(.5, .5); //spawn exactly center
         this.floor.setImmovable(true);
         this.floor.body.allowGravity = false; 
 
