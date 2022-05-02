@@ -19,7 +19,6 @@ class Play extends Phaser.Scene {
 
     }
 
-    
     create() {       
         // place background tile sprite
         this.background = this.add.tileSprite(0, 0, 1100, 800, 'background').setOrigin(0, 0);
@@ -125,10 +124,10 @@ class Play extends Phaser.Scene {
 
         // display style score
         let menuConfig = {
-            fontFamily: 'Courier',
-            fontSize: '24px',
-            backgroundColor: '#ffffff',
-            color: '#000000',
+            fontFamily: 'Comic Sans MS',
+            fontSize: '34px',
+            backgroundColor: 0,
+            color: '#c4c1c1',
             align: 'right',
             padding: {
                 top: 5,
@@ -138,7 +137,7 @@ class Play extends Phaser.Scene {
         }
         
         // score text
-        this.scoreUI = this.add.text(borderUISize + borderPadding, borderUISize + borderPadding*2, 
+        this.scoreUI = this.add.text(borderUISize/2, borderUISize + borderPadding*2 - 75, 
             this.p1Score, menuConfig);
 
         // declare timer
@@ -327,7 +326,7 @@ class Play extends Phaser.Scene {
     collectAbility(){
         if(!this.player.reviveAbility){
             this.player.reviveAbility = true;
-            this.ability1 = this.physics.add.sprite(850, 100, 'ability1').setOrigin(0, .5);
+            this.ability1 = this.physics.add.sprite(game.config.width - 120, borderUISize, 'ability1').setOrigin(0, .5);
             this.ability1.setImmovable(true);
             this.ability1.body.allowGravity = false;
             this.player.handleAbility();
