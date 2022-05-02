@@ -16,7 +16,7 @@ class Menu extends Phaser.Scene {
        this.load.audio('bloodSplat2', './assets/sfx/bloodsplat1-rocksavage.wav');
        this.load.audio('uiSelect', './assets/sfx/SFX_UIGeneric9.wav');
        this.load.audio('runningMusic', './assets/music/Fairy-Dust.mp3');
-       //this.load.spritesheet('menuScene', './assets/menuScene.png', {frameWidth: 1100, frameHeight: 800, startFrame: 0, endFrame: 4});
+    // **   this.load.spritesheet('startMenu', './assets/images/menuScene.png', {frameWidth: 1100, frameHeight: 800,});
     }
 
     create() {
@@ -34,13 +34,16 @@ class Menu extends Phaser.Scene {
             fixedWidth: 0
         }
 
-        // show menu image
+        //show menu image
 
-        //this.anims.create({
-        //    key: 'menuScene',
-        //    frames: this.anims.generateFrameNumbers('menuScene', {start: 0, end: 4, first: 0}),
-        //    frameRate: 30
-        //});
+        // **   this.anims.create({
+        // **       key: 'menuBG',
+        // **       frames: this.anims.generateFrameNumbers('menuBG', {start: 0, end: 4, first: 0}),
+        // **       frameRate: 30,
+        // **       repeat:-1
+        // **   });
+
+        // **   this.startMenu = this.add.sprite(1100, 800, 'menuBG');
 
         // show menu text
         this.add.text(game.config.width/2, game.config.height/2 - borderUISize - 
@@ -70,7 +73,7 @@ class Menu extends Phaser.Scene {
  
     update() {
 
-        // this.menuScene.anims.play('menuScene', true);
+        // **   this.startMenu.anims.play('menuBG', true);
 
         if (Phaser.Input.Keyboard.JustDown(keySPACE) || Phaser.Input.Keyboard.JustDown(keyUP) || Phaser.Input.Keyboard.JustDown(keyDOWN)) {
           // game start
