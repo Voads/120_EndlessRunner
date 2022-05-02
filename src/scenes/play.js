@@ -180,8 +180,11 @@ class Play extends Phaser.Scene {
         if(this.clockTime >= 60){
             console.log(this.clockTime);
         
-            if (this.p1Score > 10){
-                this.clockTime = 30;
+            if (this.p1Score > 13){
+                this.clockTime = 25;
+                if (this.p1Score <= 51){
+                    game.settings.enemySpeed = 7 + this.p1Score/10  
+                }
             } else{
                 this.clockTime = 0;
             }
@@ -211,9 +214,9 @@ class Play extends Phaser.Scene {
         if (!this.gameOver) {
             //Parallax
             //this.background.tilePositionX -= 5;
-            this.background_far.tilePositionX += 2;
-            this.background_mid.tilePositionX += 3;
-            this.background_front.tilePositionX += 4;
+            this.background_far.tilePositionX += game.settings.enemySpeed - 6;
+            this.background_mid.tilePositionX += game.settings.enemySpeed - 5;
+            this.background_front.tilePositionX += game.settings.enemySpeed - 3;
             this.bloodEmitter.setPositionX -= game.settings.enemySpeed;
 
             this.player.update();             // update player sprite
@@ -234,19 +237,19 @@ class Play extends Phaser.Scene {
     }
 
     //collision is now checked in the create function
-    checkCollision(player, enemy) {
-        // simple AABB checking
-        if (this.player.x < this.enemy01.x + this.enemy01.width && 
-            this.player.x + this.player.width > this.enemy01.x && 
-            this.player.y < this.enemy01.y + this.enemy01.height &&
-            this.player.height + this.player.y > this.enemy01.y) 
-        {
-            return true;
-        } 
-        else {
-            return false;
-        }
-    }
+    // checkCollision(player, enemy) {
+    //     // simple AABB checking
+    //     if (this.player.x < this.enemy01.x + this.enemy01.width && 
+    //         this.player.x + this.player.width > this.enemy01.x && 
+    //         this.player.y < this.enemy01.y + this.enemy01.height &&
+    //         this.player.height + this.player.y > this.enemy01.y) 
+    //     {
+    //         return true;
+    //     } 
+    //     else {
+    //         return false;
+    //     }
+    // }
 
     enemyHit(player, enemy) {
         if(!this.player.isDead){
@@ -384,7 +387,7 @@ class Play extends Phaser.Scene {
             this.justSpawnedPortal = true;
             
             //set the delay so portals don't spawn too often
-            this.delayClock = this.time.addEvent({delay: 10 * 600, callback: () =>{
+            this.delayClock = this.time.addEvent({delay: 15 * 600, callback: () =>{
                 
                 console.log('setting justSpawned to false');
                 this.justSpawnedPortal = false;

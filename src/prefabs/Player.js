@@ -5,7 +5,7 @@ class Player extends Phaser.Physics.Arcade.Sprite {
 
       this.gravity = 2000;
       this.moveSpeed = 4;
-      this.moveSpdJumping = 2;
+      this.moveSpdJumping = 3;
       this.jumpSpeed = 650;
       this.isGrounded = false;    // track whether or not player is in the air
       this.isDead = false;       // track top/bottom level location
@@ -74,7 +74,7 @@ class Player extends Phaser.Physics.Arcade.Sprite {
         if (keyLEFT.isDown && this.x >= borderUISize){
             // took out ' + this.width/2' from if
             if (this.isGrounded){
-                this.x -= this.moveSpeed;
+                this.x -= this.moveSpeed + 2;
                 //this.setVelocityX(-this.moveSpeed * 100); 
             } else { //slow speed while in the air
                 this.x -= this.moveSpdJumping;

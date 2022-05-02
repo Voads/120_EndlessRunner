@@ -83,7 +83,7 @@ class Menu extends Phaser.Scene {
         if (Phaser.Input.Keyboard.JustDown(keySPACE) || Phaser.Input.Keyboard.JustDown(keyUP) || Phaser.Input.Keyboard.JustDown(keyDOWN)) {
           // game start
           game.settings = {
-            enemySpeed: 8,     
+            enemySpeed: 7,     
           }
           //this.sound.play('uiSelect');
           this.uiSelect.play();
