@@ -63,6 +63,7 @@ class Menu extends Phaser.Scene {
         keySPACE = this.input.keyboard.addKey(Phaser.Input.Keyboard.KeyCodes.SPACE);
         keyUP = this.input.keyboard.addKey(Phaser.Input.Keyboard.KeyCodes.UP);
         keyDOWN = this.input.keyboard.addKey(Phaser.Input.Keyboard.KeyCodes.DOWN);
+        keyI = this.input.keyboard.addKey(Phaser.Input.Keyboard.KeyCodes.I);
 
 
         // define UI sounds
@@ -88,6 +89,12 @@ class Menu extends Phaser.Scene {
           this.uiSelect.play();
           this.scene.start('playScene');    
         }
+        
+        //if (Phaser.Input.Keyboard.JustDown(keyI)) {
+            // show instructions
+        //    this.scene.start('instructions'); 
+        //}
+
     }
 }
 
