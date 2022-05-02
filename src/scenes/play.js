@@ -21,10 +21,10 @@ class Play extends Phaser.Scene {
     
     create() {       
         // place background tile sprite
-        this.background = this.add.tileSprite(0, 0, 11100, 800, 'background').setOrigin(0, 0);
+        this.background = this.add.tileSprite(0, 0, 1100, 800, 'background').setOrigin(0, 0);
         this.background_far = this.add.tileSprite(0, game.config.height/2 + 2, 1100, 800, 'background_far').setOrigin(0, .5);
         this.background_mid = this.add.tileSprite(0, game.config.height/2 + 2, 1100, 800, 'background_mid').setOrigin(0, .5);
-        this.background_front = this.add.tileSprite(0, game.config.height/2 + 2, 1100, 800, 'background_front').setOrigin(0, .5);
+        this.background_front = this.add.tileSprite(0, game.config.height/2 + 3, 1100, 800, 'background_front').setOrigin(0, .5);
     
         // place floor sprite make sure it doesn't move
         this.floor = this.physics.add.sprite(550, game.config.height/2, 'floor').setOrigin(.5, .5); //spawn exactly center
@@ -165,8 +165,8 @@ class Play extends Phaser.Scene {
  
     update(){                
         //keep track of time
-        this.clockScore += 1;
-        this.clockTime += 1;
+        this.clockScore += 1; //keep track of player score/distance
+        this.clockTime += 1; //control spawns
         this.counter += 1;
 
         // 1 second timer 60 fps
@@ -187,7 +187,8 @@ class Play extends Phaser.Scene {
 
             // random number between 0 and 2
             this.random = Phaser.Math.Between(0, 4);
-            this.spawnEnemy(this.random);
+            this.spawnEnemyTop(this.random);
+            this.spawnEnemyBot(this.random);
             this.spawnPortal(this.random);
             // if(this.random == 1){
             //  this.enemy01 = new Enemy(this, game.config.width + 50, game.config.height/2 -100, 'enemy01').setOrigin(0.5, 0);
@@ -344,30 +345,35 @@ class Play extends Phaser.Scene {
         this.player.isGrounded = true;
     }
 
-    spawnEnemy(randValue){
+    spawnEnemyTop(randValue){
         // random number between 0 and 2
         // spawn enemy
-        if(randValue == 0 || randValue == 1){
+        if(randValue <= 2){
             //var newEnemy = new Enemy(this, game.config.width, game.config.height/2 -100, 'enemy01').setOrigin(0.5, 0);
             // get and create last enemy in group array
-            var newEnemy = this.enemies.create(game.config.width + 50, game.config.height/2 -100, 'enemy').setOrigin(0.5, 620);
+            var newEnemy = this.enemies.create(game.config.width + 50, game.config.height/2 -100, 'enemy').setOrigin(0.5, 0);
             this.physics.add.collider(newEnemy, this.floor);
             this.physics.add.collider(this.player, newEnemy, this.enemyHit, null, this); // calls the enemyHit function on collision with player
             
-            
             console.log("enemy add");
         }
-        if(randValue == 2 || randValue == 3){
+    }
+
+    spawnEnemyBot(randValue){
+        // spawn enemy on botttom side
+        if(randValue >= 1){
             // spawn upside-down enemies
             var newEnemyFlipY = this.enemies.create(game.config.width + 50, game.config.height/2 +20, 'enemy').setOrigin(0.5, 0);
             newEnemyFlipY.handleUpsideDown(true);
             this.physics.add.collider(newEnemyFlipY, this.floor);
             this.physics.add.collider(this.player, newEnemyFlipY, this.enemyHit, null, this); // calls the enemyHit function on collision with player
+            console.log("enemy add Bottom");
         }
     }
-    
+
     spawnPortal(randValue){
         // spawn revive portal
+        // this.add.delayedCall()
         if(randValue == 4){
             var newRevPort = this.revivePort.create(game.config.width + 100, game.config.height/2-23, 'revivePort').setOrigin(0.5,0.5);
             this.physics.add.overlap(this.player, newRevPort, this.playerRevive, null, this);
