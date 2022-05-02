@@ -113,7 +113,8 @@ class Play extends Phaser.Scene {
         // initialize counter
         this.counter = 0;
         this.random = 0;
-        
+        this.randomAbility = 0;
+
         // display style score
         let menuConfig = {
             fontFamily: 'Courier',
@@ -228,11 +229,10 @@ class Play extends Phaser.Scene {
             // this.enemies.runChildUpdate = true;
         }   
     
-        if (this.player.reviveAbility &&Phaser.Input.Keyboard.JustDown(keySPACE)) {
+        if (this.player.reviveAbility && this.player.isDead && Phaser.Input.Keyboard.JustDown(keySPACE)) {
             this.ability1.disableBody(true, true);
             this.playerRevive();
             this.player.reviveAbility = false;
-
         }
         if (Phaser.Input.Keyboard.JustDown(keyR)) {       
             this.player.handleDeathSFX(true);
@@ -270,7 +270,11 @@ class Play extends Phaser.Scene {
                 this.bloodEmitter.setGravityX(-1050);
                 // this.bloodEmitter.setVelocityX(-game.settings.enemySpeed);
                 this.player.setVelocityY(-450);
+                // collect ability
+                this.randomAbility = Phaser.Math.Between(0, 3);
+                if(this.randomAbility == 1){
                 this.collectAbility();
+                }
             }  
             // player dies
             else{
@@ -286,7 +290,9 @@ class Play extends Phaser.Scene {
                 this.bloodEmitter.explode(100,enemy.x, enemy.y);
                 this.bloodEmitter.setGravityX(-1050);
                 this.player.setVelocityY(450);
-                this.collectAbility();
+                if(this.randomAbility == 1){
+                    this.collectAbility();
+                    }
                 
             }  
             else {
@@ -304,9 +310,10 @@ class Play extends Phaser.Scene {
     collectAbility(){
         if(!this.player.reviveAbility){
             this.player.reviveAbility = true;
-            this.ability1 = this.physics.add.sprite(750, 100, 'ability1').setOrigin(0, .5);
+            this.ability1 = this.physics.add.sprite(850, 100, 'ability1').setOrigin(0, .5);
             this.ability1.setImmovable(true);
             this.ability1.body.allowGravity = false;
+            this.player.handleAbility();
         }
     }
 

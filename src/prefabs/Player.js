@@ -92,6 +92,10 @@ class Player extends Phaser.Physics.Arcade.Sprite {
 
     }
     
+    handleAbility(){
+        this.reviveSfx.play();
+    }
+
     handleDeath(){
         this.isDead = true;
         // reset player position to below the ground
