@@ -62,22 +62,22 @@ class Player extends Phaser.Physics.Arcade.Sprite {
             } else{
                 if(Phaser.Input.Keyboard.JustDown(keyDOWN) && this.body.touching.up) {
                     // console.log("Player.js JUMPING dead...");
-                    this.setVelocityY(+this.jumpSpeed);
+                    this.setVelocityY(this.jumpSpeed);
                     this.sfxJump.play();
                     this.isGrounded = false;
                     this.runningSfx.stop();
                 }
             }
         } else { 
-            if(Phaser.Input.Keyboard.JustDown(keyDOWN) && !this.isGrounded && !this.isDead) {
+            if(keyDOWN.isDown && !this.isGrounded && !this.isDead) {
                 // console.log("Player.js JUMPING dead...");
-                this.setVelocityY(+this.jumpSpeed/2);
+                this.setVelocityY(this.jumpSpeed + 500);
                 this.sfxJump.play();
                 this.runningSfx.stop();
             }
-            if(Phaser.Input.Keyboard.JustDown(keyUP) && !this.isGrounded && this.isDead) {
+            if(keyUP.isDown && !this.isGrounded && this.isDead) {
                 // console.log("Player.js JUMPING dead...");
-                this.setVelocityY(-this.jumpSpeed/2);
+                this.setVelocityY(-this.jumpSpeed - 500);
                 this.sfxJump.play();
                 this.runningSfx.stop();
             }
