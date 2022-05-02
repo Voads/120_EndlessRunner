@@ -36,6 +36,8 @@ class GameOver extends Phaser.Scene {
             this.startMenu = this.add.sprite(550, 400, 'gameOverBG');
             this.startMenu.play('gameOverBG');
 
+            // display score and time lasted?
+
             // define keys
             keyY = this.input.keyboard.addKey(Phaser.Input.Keyboard.KeyCodes.Y);
             keyN = this.input.keyboard.addKey(Phaser.Input.Keyboard.KeyCodes.N);
