@@ -283,7 +283,8 @@ class Play extends Phaser.Scene {
             this.player.handleRunSFX(false);
             this.aliveMusic.stop();
             this.gameOver = true;
-            this.scene.start('menuScene');    
+            this.scene.start('menuScene');
+            // this.scene.start('gameOverScene');
             }
         } 
     }

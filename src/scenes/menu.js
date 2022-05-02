@@ -50,19 +50,20 @@ class Menu extends Phaser.Scene {
            this.startMenu.play('menuBG');
 
         // show menu text
-        this.add.text(game.config.width/2, game.config.height/2 - borderUISize - 
-        borderPadding - 50, ' Endless Runner Playtest Build', menuConfig).setOrigin(0.5);
-        this.add.text(game.config.width/2, game.config.height/2, ' Use (UP ARROW) to Jump when alive ', 
-        menuConfig).setOrigin(0.5);
-        this.add.text(game.config.width/2, game.config.height/2 + 50, ' Use (Down ARROW) to Jump when dead ', 
-        menuConfig).setOrigin(0.5);
-        this.add.text(game.config.width/2, game.config.height/2 + borderUISize + 
-        borderPadding + 50, ' Press (SPACE) to use Abilities ', menuConfig).setOrigin(0.5);
+        //this.add.text(game.config.width/2, game.config.height/2 - borderUISize - 
+        //borderPadding - 50, ' Endless Runner Playtest Build', menuConfig).setOrigin(0.5);
+        //this.add.text(game.config.width/2, game.config.height/2, ' Use (UP ARROW) to Jump when alive ', 
+        //menuConfig).setOrigin(0.5);
+        //this.add.text(game.config.width/2, game.config.height/2 + 50, ' Use (Down ARROW) to Jump when dead ', 
+        //menuConfig).setOrigin(0.5);
+        //this.add.text(game.config.width/2, game.config.height/2 + borderUISize + 
+        //borderPadding + 50, ' Press (SPACE) to use Abilities ', menuConfig).setOrigin(0.5);
 
         // define keys
         keySPACE = this.input.keyboard.addKey(Phaser.Input.Keyboard.KeyCodes.SPACE);
         keyUP = this.input.keyboard.addKey(Phaser.Input.Keyboard.KeyCodes.UP);
         keyDOWN = this.input.keyboard.addKey(Phaser.Input.Keyboard.KeyCodes.DOWN);
+        // keyI = this.input.keyboard.addKey(Phaser.Input.Keyboard.KeyCodes.I);
 
 
         // define UI sounds
@@ -88,6 +89,12 @@ class Menu extends Phaser.Scene {
           this.uiSelect.play();
           this.scene.start('playScene');    
         }
+
+        //if (Phaser.Input.Keyboard.JustDown(keyI)) {
+            // show instructions
+        //    this.scene.start('instructions'); 
+        //}
+
     }
 }
 
