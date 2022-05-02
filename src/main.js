@@ -18,7 +18,7 @@ let config = {
         target: 60,
         forceSetTimeOut: true 
 },
-    scene: [ Menu, Play ]
+    scene: [ Menu, Play, Instruction ]
 }
 
 let game = new Phaser.Game(config);
@@ -28,4 +28,4 @@ let borderUISize = game.config.height / 15;
 let borderPadding = borderUISize / 3;
 
 // reserve keyboard variables
-let keySPACE, keyJUMP, keyUP, keyDOWN, keyLEFT, keyRIGHT, mouseL ;
+let keySPACE, keyJUMP, keyUP, keyDOWN, keyLEFT, keyRIGHT, keyI, keyR, mouseL ;

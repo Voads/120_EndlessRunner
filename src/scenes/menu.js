@@ -63,7 +63,7 @@ class Menu extends Phaser.Scene {
         keySPACE = this.input.keyboard.addKey(Phaser.Input.Keyboard.KeyCodes.SPACE);
         keyUP = this.input.keyboard.addKey(Phaser.Input.Keyboard.KeyCodes.UP);
         keyDOWN = this.input.keyboard.addKey(Phaser.Input.Keyboard.KeyCodes.DOWN);
-        // keyInstruct = this.input.keyboard.addKey(Phaser.Input.Keyboard.KeyCodes.I);
+        keyI = this.input.keyboard.addKey(Phaser.Input.Keyboard.KeyCodes.I);
 
 
         // define UI sounds
@@ -80,7 +80,7 @@ class Menu extends Phaser.Scene {
 
         // **   this.startMenu.anims.play('menuBG', true);
 
-        if (Phaser.Input.Keyboard.JustDown(keySPACE) || Phaser.Input.Keyboard.JustDown(keyUP) || Phaser.Input.Keyboard.JustDown(keyDOWN)) {
+        if (Phaser.Input.Keyboard.JustDown(keySPACE)) {
           // game start
           game.settings = {
             enemySpeed: 7,     
@@ -90,10 +90,11 @@ class Menu extends Phaser.Scene {
           this.scene.start('playScene');    
         }
 
-        //if (Phaser.Input.Keyboard.JustDown(keyI)) {
-            // show instructions
-        //    this.scene.start('instructions'); 
-        //}
+        if (Phaser.Input.Keyboard.JustDown(keyI)) {
+            //show instructions
+            this.uiSelect.play();
+            this.scene.start('instructionScene'); 
+        }
 
     }
 }

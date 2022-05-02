@@ -101,7 +101,7 @@ class Play extends Phaser.Scene {
         keyDOWN = this.input.keyboard.addKey(Phaser.Input.Keyboard.KeyCodes.DOWN);
         keyLEFT = this.input.keyboard.addKey(Phaser.Input.Keyboard.KeyCodes.LEFT);
         keyRIGHT = this.input.keyboard.addKey(Phaser.Input.Keyboard.KeyCodes.RIGHT);
-        
+        keyR = this.input.keyboard.addKey(Phaser.Input.Keyboard.KeyCodes.R); 
 
         // this.pointer = this.input.activePointer;
 
@@ -233,6 +233,13 @@ class Play extends Phaser.Scene {
             this.playerRevive();
             this.player.reviveAbility = false;
 
+        }
+        if (Phaser.Input.Keyboard.JustDown(keyR)) {       
+            this.player.handleDeathSFX(true);
+            this.player.handleRunSFX(false);
+            this.aliveMusic.stop();
+            this.gameOver = true;
+            this.scene.start('menuScene'); 
         }
     }
 
