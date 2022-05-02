@@ -80,7 +80,7 @@ class Menu extends Phaser.Scene {
 
         // **   this.startMenu.anims.play('menuBG', true);
 
-        if (Phaser.Input.Keyboard.JustDown(keySPACE) || Phaser.Input.Keyboard.JustDown(keyUP) || Phaser.Input.Keyboard.JustDown(keyDOWN)) {
+        if (Phaser.Input.Keyboard.JustDown(keySPACE)) {
           // game start
           game.settings = {
             enemySpeed: 7,     
