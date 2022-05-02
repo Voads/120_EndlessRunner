@@ -52,7 +52,7 @@ class Play extends Phaser.Scene {
 
         // add player (p1)
         // this.player = this.physics.add.sprite(game.config.width/2 - 250, game.config.height - borderUISize - borderPadding - 353, 'player').setOrigin(0.5, 0);
-        this.player = new Player(this, game.config.width/2 - 250, game.config.height/2 - 250, 'player').setOrigin (0.5,0);
+        this.player = new Player(this, game.config.width/2 - 250, game.config.height/2 - 250, 'player').setOrigin (.5,0);
         // create animations for player
         this.anims.create({
             key: 'alive-run',

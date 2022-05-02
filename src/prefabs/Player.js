@@ -71,7 +71,8 @@ class Player extends Phaser.Physics.Arcade.Sprite {
         } else { this.runningSfx.stop(); }
 
         //left/right movement
-        if (keyLEFT.isDown && this.x >= borderUISize + this.width/2){
+        if (keyLEFT.isDown && this.x >= borderUISize){
+            // took out ' + this.width/2' from if
             if (this.isGrounded){
                 this.x -= this.moveSpeed;
                 //this.setVelocityX(-this.moveSpeed * 100); 
@@ -79,7 +80,8 @@ class Player extends Phaser.Physics.Arcade.Sprite {
                 this.x -= this.moveSpdJumping;
             }
         }   
-        else if (keyRIGHT.isDown && this.x <= game.config.width - borderUISize - this.width/2) {
+        else if (keyRIGHT.isDown && this.x <= game.config.width - borderUISize) {
+            // took out  '- this.width/2' from else if
             if (this.isGrounded){
                 this.x += this.moveSpeed;
                 // this.setVelocityX(this.moveSpeed * 100);
