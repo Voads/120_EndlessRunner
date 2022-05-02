@@ -8,7 +8,8 @@ class Enemy extends Phaser.Physics.Arcade.Sprite{
         // requied to extend arcade physics class
         scene.physics.add.existing(this);
         
-        this.moveSpeed = game.settings.enemySpeed;
+        //this.moveSpeed = game.settings.enemySpeed;
+        this.moveSpeed = Phaser.Math.Between(game.settings.enemySpeed - 1, game.settings.enemySpeed + 1);
         //this.upsideDown = false;
         this.gravity = 300; 
         this.setCollideWorldBounds(false);
@@ -18,6 +19,9 @@ class Enemy extends Phaser.Physics.Arcade.Sprite{
 
     }
 
+    create(){
+
+    }
 
     update(){
         //move left

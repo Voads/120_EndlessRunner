@@ -1,5 +1,5 @@
 //spaceship prefab
-class Enemy extends Phaser.Physics.Arcade.Sprite{
+class EnemyFast extends Phaser.Physics.Arcade.Sprite{
     constructor(scene, x, y, texture, frame){
         super(scene, x, y, texture, frame);
 
@@ -8,7 +8,7 @@ class Enemy extends Phaser.Physics.Arcade.Sprite{
         // requied to extend arcade physics class
         scene.physics.add.existing(this);
         
-        this.moveSpeed = game.settings.enemySpeed + 2;
+        this.moveSpeed = game.settings.enemySpeed + 4;
         //this.upsideDown = false;
         this.gravity = 600; 
         this.setCollideWorldBounds(false);

@@ -3,10 +3,10 @@ class Player extends Phaser.Physics.Arcade.Sprite {
       super(scene, x, y, texture);
   
 
-      this.gravity = 2000;
+      this.gravity = 2400;
       this.moveSpeed = 4;
       this.moveSpdJumping = 3;
-      this.jumpSpeed = 650;
+      this.jumpSpeed = 700;
       this.isGrounded = false;    // track whether or not player is in the air
       this.isDead = false;       // track top/bottom level location
       this.reviveAbility = false;    // track revive ability 1

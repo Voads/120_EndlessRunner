@@ -12,6 +12,7 @@ class Play extends Phaser.Scene {
         this.load.spritesheet('player', './assets/images/player.png', 
             { frameWidth: 620, frameHeight: 500 });
         this.load.image('enemy', './assets/images/GB-enemy.png');
+        this.load.image('enemyFast', './assets/images/GB-enemyFast.png');
         this.load.image('revivePort', './assets/images/GB-revivePort.png');
         this.load.image('ability1', './assets/images/GB-ability1.png');
         this.load.image('bloodParticle', './assets/images/bloodParticle.png');
@@ -39,6 +40,13 @@ class Play extends Phaser.Scene {
             maxSize: 20,
             runChildUpdate: true
         });
+        this.enemiesFast = this.add.group({
+            classType: EnemyFast,
+            enableBody: true,
+            physicsBodyType: Phaser.Physics.Arcade,
+            maxSize: 5,
+            runChildUpdate: true
+        })
         this.revivePort = this.add.group({
             classType: RevivePortal,
             enableBody: true,
@@ -359,26 +367,47 @@ class Play extends Phaser.Scene {
     spawnEnemyTop(randValue){
         // random number between 0 and 2
         // spawn enemy
-        if(randValue <= 2 && !this.player.isDead){
-            //var newEnemy = new Enemy(this, game.config.width, game.config.height/2 -100, 'enemy01').setOrigin(0.5, 0);
-            // get and create last enemy in group array
-            var newEnemy = this.enemies.create(game.config.width + 50, game.config.height/2 -100, 'enemy').setOrigin(0.5, 0);
-            this.physics.add.collider(newEnemy, this.floor);
-            this.physics.add.collider(this.player, newEnemy, this.enemyHit, null, this); // calls the enemyHit function on collision with player
-            
-            console.log("enemy add");
+        if(!this.player.isDead){
+            if(randValue <= 2){
+                // get and create last enemy in group array
+                var newEnemy = this.enemies.create(game.config.width + 50, game.config.height/2 -100, 'enemy').setOrigin(0.5, 0);
+                this.physics.add.collider(newEnemy, this.floor);
+                this.physics.add.collider(this.player, newEnemy, this.enemyHit, null, this); // calls the enemyHit function on collision with player
+                
+                console.log("enemy add");
+            }
+            // spawn faster enemy
+            else if(randValue == 3){
+                // get and create last enemy in group array
+                var newEnemyFast = this.enemiesFast.create(game.config.width + 50, game.config.height/2 -100, 'enemyFast').setOrigin(0.5, 0);
+                this.physics.add.collider(newEnemyFast, this.floor);
+                this.physics.add.collider(this.player, newEnemyFast, this.enemyHit, null, this); // calls the enemyHit function on collision with player
+                
+                console.log("enemy add fast");
+            }
         }
     }
 
     spawnEnemyBot(randValue){
         // spawn enemy on botttom side
-        if(randValue >= 1 && randValue != 4 && this.player.isDead){
-            // spawn upside-down enemies
-            var newEnemyFlipY = this.enemies.create(game.config.width + 50, game.config.height/2 +20, 'enemy').setOrigin(0.5, 0);
-            newEnemyFlipY.handleUpsideDown(true);
-            this.physics.add.collider(newEnemyFlipY, this.floor);
-            this.physics.add.collider(this.player, newEnemyFlipY, this.enemyHit, null, this); // calls the enemyHit function on collision with player
-            console.log("enemy add Bottom");
+        if (this.player.isDead){
+            if(randValue >= 1 && randValue != 4 && this.player.isDead){
+                // spawn upside-down enemies
+                var newEnemyFlipY = this.enemies.create(game.config.width + 50, game.config.height/2 +20, 'enemy').setOrigin(0.5, 0);
+                newEnemyFlipY.handleUpsideDown(true);
+                this.physics.add.collider(newEnemyFlipY, this.floor);
+                this.physics.add.collider(this.player, newEnemyFlipY, this.enemyHit, null, this); // calls the enemyHit function on collision with player
+                console.log("enemy add Bottom");
+
+                // spawn fast enemy
+                if (randValue >= 3){
+                    var newEnemyFlipYFast = this.enemiesFast.create(game.config.width + 50, game.config.height/2 +20, 'enemyFast').setOrigin(0.5, 0);
+                    newEnemyFlipYFast.handleUpsideDown(true);
+                    this.physics.add.collider(newEnemyFlipYFast, this.floor);
+                    this.physics.add.collider(this.player, newEnemyFlipYFast, this.enemyHit, null, this); // calls the enemyHit function on collision with player
+                    console.log("enemy add Bottom");
+                }
+            } 
         }
     }
 
