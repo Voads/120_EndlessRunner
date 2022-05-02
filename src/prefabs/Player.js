@@ -68,7 +68,21 @@ class Player extends Phaser.Physics.Arcade.Sprite {
                     this.runningSfx.stop();
                 }
             }
-        } else { this.runningSfx.stop(); }
+        } else { 
+            if(Phaser.Input.Keyboard.JustDown(keyDOWN) && !this.isGrounded && !this.isDead) {
+                // console.log("Player.js JUMPING dead...");
+                this.setVelocityY(+this.jumpSpeed/2);
+                this.sfxJump.play();
+                this.runningSfx.stop();
+            }
+            if(Phaser.Input.Keyboard.JustDown(keyUP) && !this.isGrounded && this.isDead) {
+                // console.log("Player.js JUMPING dead...");
+                this.setVelocityY(-this.jumpSpeed/2);
+                this.sfxJump.play();
+                this.runningSfx.stop();
+            }
+            
+            this.runningSfx.stop(); }
 
         //left/right movement
         if (keyLEFT.isDown && this.x >= borderUISize){
