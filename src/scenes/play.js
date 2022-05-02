@@ -9,8 +9,8 @@ class Play extends Phaser.Scene {
         this.load.image('background_mid', './assets/images/GB-background_mid.png');
         this.load.image('background_front', './assets/images/GB-background_front.png');
         this.load.image('floor', './assets/images/GB-floor.png');
-        this.load.spritesheet('player', './assets/images/GB-player.png', 
-            { frameWidth: 73, frameHeight: 102 });
+        this.load.spritesheet('player', './assets/images/player.png', 
+            { frameWidth: 620, frameHeight: 500 });
         this.load.image('enemy', './assets/images/GB-enemy.png');
         this.load.image('revivePort', './assets/images/GB-revivePort.png');
         this.load.image('ability1', './assets/images/GB-ability1.png');
@@ -56,16 +56,20 @@ class Play extends Phaser.Scene {
         // create animations for player
         this.anims.create({
             key: 'alive-run',
-            frames: this.anims.generateFrameNumbers('player', {frames: [0]}),
-            framerate: 1,
+            frames: this.anims.generateFrameNumbers('player', {frames: [0,1,2,3,4,5,6,7,8,9,10,11]}),
+            //framerate: 12,
+            duration: 600,
             repeat: -1
         });
         this.anims.create({
             key: 'dead-run',
-            frames: this.anims.generateFrameNumbers('player', {frames: [1]}),
-            framerate: 1,
+            frames: this.anims.generateFrameNumbers('player', {frames: [12,13,14,15,16,17,18,19,20,21,22,23]}),
+            framerate: 600,
             repeat: -1
         });
+        this.player.play('alive-run');
+        this.player.setScale(.3);
+        this.player.setBodySize(350,500);
 
         // revive portal
         // this.revivePort = new RevivePortal(this, game.config.width + 1150, game.config.height/2-23 , 'revivePort').setOrigin(0.5,0.5);
@@ -345,7 +349,7 @@ class Play extends Phaser.Scene {
         if(randValue == 0 || randValue == 1){
             //var newEnemy = new Enemy(this, game.config.width, game.config.height/2 -100, 'enemy01').setOrigin(0.5, 0);
             // get and create last enemy in group array
-            var newEnemy = this.enemies.create(game.config.width + 50, game.config.height/2 -100, 'enemy').setOrigin(0.5, 0);
+            var newEnemy = this.enemies.create(game.config.width + 50, game.config.height/2 -100, 'enemy').setOrigin(0.5, 620);
             this.physics.add.collider(newEnemy, this.floor);
             this.physics.add.collider(this.player, newEnemy, this.enemyHit, null, this); // calls the enemyHit function on collision with player
             

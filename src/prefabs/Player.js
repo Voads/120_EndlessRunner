@@ -105,7 +105,7 @@ class Player extends Phaser.Physics.Arcade.Sprite {
     handleRevive(){
         this.isDead = false;
         // reset player position to above the ground
-        this.y = game.config.height/2 - 120;
+        this.y = game.config.height/2 - 200;
         // reverse grav direction
         this.setGravity(0,this.gravity);
 
