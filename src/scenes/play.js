@@ -46,6 +46,7 @@ class Play extends Phaser.Scene {
             maxSize: 5,
             runChildUpdate: true
         });
+        this.justSpawnedPortal = false; // var to make sure portals don't spawn too often
 
         // spawn enemies off screen
         this.enemy01 = new Enemy(this, game.config.width + 100, game.config.height/2 -100, 'enemy').setOrigin(0.5, 0);
@@ -348,7 +349,7 @@ class Play extends Phaser.Scene {
     spawnEnemyTop(randValue){
         // random number between 0 and 2
         // spawn enemy
-        if(randValue <= 2){
+        if(randValue <= 2 && !this.player.isDead){
             //var newEnemy = new Enemy(this, game.config.width, game.config.height/2 -100, 'enemy01').setOrigin(0.5, 0);
             // get and create last enemy in group array
             var newEnemy = this.enemies.create(game.config.width + 50, game.config.height/2 -100, 'enemy').setOrigin(0.5, 0);
@@ -361,7 +362,7 @@ class Play extends Phaser.Scene {
 
     spawnEnemyBot(randValue){
         // spawn enemy on botttom side
-        if(randValue >= 1){
+        if(randValue >= 1 && randValue != 4 && this.player.isDead){
             // spawn upside-down enemies
             var newEnemyFlipY = this.enemies.create(game.config.width + 50, game.config.height/2 +20, 'enemy').setOrigin(0.5, 0);
             newEnemyFlipY.handleUpsideDown(true);
@@ -373,15 +374,21 @@ class Play extends Phaser.Scene {
 
     spawnPortal(randValue){
         // spawn revive portal
-        // this.add.delayedCall()
-        if(randValue == 4){
+        if(randValue == 4 && !this.justSpawnedPortal){
             var newRevPort = this.revivePort.create(game.config.width + 100, game.config.height/2-23, 'revivePort').setOrigin(0.5,0.5);
             this.physics.add.overlap(this.player, newRevPort, this.playerRevive, null, this);
             newRevPort.setImmovable(true);
             newRevPort.body.allowGravity = false; 
 
             this.clockTime = 0;
-            console.log("respawn add");
-           }
+            this.justSpawnedPortal = true;
+            
+            //set the delay so portals don't spawn too often
+            this.delayClock = this.time.addEvent({delay: 10 * 600, callback: () =>{
+                
+                console.log('setting justSpawned to false');
+                this.justSpawnedPortal = false;
+            }, callbackScope: this, repeat: 0});
+        }
     }
 }
