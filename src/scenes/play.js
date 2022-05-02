@@ -146,13 +146,18 @@ class Play extends Phaser.Scene {
 
         // initialize sounds/music
         this.aliveMusic = this.sound.add('runningMusic', {
-            volume: .2,
+            volume: 3,
             rate: 1,
             loop: true,
         });
         this.aliveMusic.play();
+        this.deadMusic = this.sound.add('runningDeadMusic',{
+            volume: 1.5,
+            rate: 1,
+            loop: true
+        });
         this.enemySplat = this.sound.add('bloodSplat2',{
-            volume: .2,
+            volume: .8,
             rate: 1,
             loop: false,
         });
@@ -281,13 +286,16 @@ class Play extends Phaser.Scene {
                 // collect ability
                 this.randomAbility = Phaser.Math.Between(0, 3);
                 if(this.randomAbility == 1){
-                this.collectAbility();
+                    this.collectAbility();
                 }
             }  
             // player dies
             else{
                 this.player.handleDeath('deadPlayer');
                 this.player.play('dead-run');
+                this.aliveMusic.pause();
+                this.deadMusic.play();
+                this.deadMusic.setSeek(this.aliveMusic.seek);
             }
         }
         else{
@@ -300,7 +308,7 @@ class Play extends Phaser.Scene {
                 this.player.setVelocityY(450);
                 if(this.randomAbility == 1){
                     this.collectAbility();
-                    }
+                }
                 
             }  
             else {
@@ -308,6 +316,7 @@ class Play extends Phaser.Scene {
             this.player.handleDeathSFX(true);
             this.player.handleRunSFX(false);
             this.aliveMusic.stop();
+            this.deadMusic.stop();
             this.gameOver = true;
             this.scene.start('menuScene');
             // this.scene.start('gameOverScene');
@@ -329,6 +338,9 @@ class Play extends Phaser.Scene {
         if(this.player.isDead){
             this.player.handleRevive();
             this.player.play('alive-run');
+            this.deadMusic.pause();
+            this.aliveMusic.play();
+            this.aliveMusic.setSeek(this.deadMusic.seek);
         }
     }
 

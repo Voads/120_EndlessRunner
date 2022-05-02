@@ -32,7 +32,7 @@ class Player extends Phaser.Physics.Arcade.Sprite {
         });
         this.deathSfx = scene.sound.add('bloodSplat',{
             mute: false,
-            volume: .4,
+            volume: 1,
             rate: 1,
             loop: false,
             delay: 0

@@ -15,7 +15,8 @@ class Menu extends Phaser.Scene {
        this.load.audio('bloodSplat', './assets/sfx/bloodsplat2-magnuswaker.wav');
        this.load.audio('bloodSplat2', './assets/sfx/bloodsplat1-rocksavage.wav');
        this.load.audio('uiSelect', './assets/sfx/SFX_UIGeneric9.wav');
-       this.load.audio('runningMusic', './assets/music/Fairy-Dust.mp3');
+       this.load.audio('runningMusic', './assets/music/Fairy-Dust-TopSide.mp3');
+       this.load.audio('runningDeadMusic', './assets/music/Fairy-Dust.mp3')
 
        // load images
        this.load.spritesheet('menuBG', './assets/images/menuScene.png', 
