@@ -1,4 +1,3 @@
-//spaceship prefab
 class Enemy extends Phaser.Physics.Arcade.Sprite{
     constructor(scene, x, y, texture, frame){
         super(scene, x, y, texture, frame);
@@ -16,10 +15,6 @@ class Enemy extends Phaser.Physics.Arcade.Sprite{
         this.setVelocity(0, 0);
         this.setGravity(0, 330); // (x,y)
         this.setBounce(0);
-
-    }
-
-    create(){
 
     }
 
