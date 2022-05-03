@@ -18,10 +18,6 @@ class Enemy extends Phaser.Physics.Arcade.Sprite{
 
     }
 
-    create(){
-
-    }
-
     update(){
         //move left
         this.x -= this.moveSpeed;
