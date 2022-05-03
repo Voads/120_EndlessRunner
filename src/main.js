@@ -1,7 +1,7 @@
 // Jeff Row, Vincent Kaufman, Keli Lindsey
 // Undying Wish
 // Completed 05/02/2022
-// We implemented a flipping of the plane when a player becomes injured/sent to the underworld and revived
+// Creative Tilt: We implemented a flipping of the plane when a player becomes injured/sent to the underworld and revived
 
 let config = {
     type: Phaser.CANVAS,
