@@ -10,22 +10,28 @@ class Player extends Phaser.Physics.Arcade.Sprite {
       this.isGrounded = false;    // track whether or not player is in the air
       this.isDead = false;       // track top/bottom level location
       this.reviveAbility = false;    // track revive ability 1
-      this.sfxJump = scene.sound.add('jump'); // add sfx
-
       
-        // requied to extend arcade physics class
-        scene.add.existing(this); // add object to existing scene, displayList, updateList
-        scene.physics.add.existing(this);
-
-        this.setCollideWorldBounds(true);
-        this.setVelocity(0, 0);
-        this.setGravity(0, this.gravity); // (x,y)
-        this.setBounce(0);
-        //   this.setDragX(.5);
-
+      
+      // requied to extend arcade physics class
+      scene.add.existing(this); // add object to existing scene, displayList, updateList
+      scene.physics.add.existing(this);
+      
+      this.setCollideWorldBounds(true);
+      this.setVelocity(0, 0);
+      this.setGravity(0, this.gravity); // (x,y)
+      this.setBounce(0);
+      //   this.setDragX(.5);
+      
+        this.sfxJump = scene.sound.add('jump',{
+            mute: false,
+            volume: 2,
+            rate: 1,
+            loop: false,
+            delay: 0
+        }); // add sfx
         this.runningSfx = scene.sound.add('run1and2', {
             mute: false,
-            volume: .3,
+            volume: .6,
             rate: 1,
             loop: true,
             delay: 0
@@ -38,7 +44,7 @@ class Player extends Phaser.Physics.Arcade.Sprite {
             delay: 0
         });
         this.reviveSfx = scene.sound.add('res', {
-            volume: .4,
+            volume: 1,
             loop:false,
             delay: 0
         });

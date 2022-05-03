@@ -13,7 +13,9 @@ class Play extends Phaser.Scene {
             { frameWidth: 620, frameHeight: 500 });
         this.load.image('enemy', './assets/images/GB-enemy.png');
         this.load.image('enemyFast', './assets/images/GB-enemyFast.png');
-        this.load.image('revivePort', './assets/images/GB-revivePort.png');
+        //this.load.image('revivePort', './assets/images/revivePort.png');
+        this.load.spritesheet('revivePort', './assets/images/revivePort.png', 
+            { frameWidth: 146, frameHeight: 277 });
         this.load.image('ability1', './assets/images/GB-ability1.png');
         this.load.image('bloodParticle', './assets/images/bloodParticle.png');
 
@@ -72,7 +74,7 @@ class Play extends Phaser.Scene {
         this.anims.create({
             key: 'dead-run',
             frames: this.anims.generateFrameNumbers('player', {frames: [12,13,14,15,16,17,18,19,20,21,22,23]}),
-            framerate: 600,
+            duration: 600,
             repeat: -1
         });
         this.player.play('alive-run');
@@ -80,6 +82,12 @@ class Play extends Phaser.Scene {
         this.player.setBodySize(350,500);
 
         // revive portal
+        this.anims.create({
+            key: 'idlePort',
+            frames: this.anims.generateFrameNumbers('revivePort', {frames: [0,1,2,3]}),
+            duration: 600,
+            repeat: -1
+        });
         // this.revivePort = new RevivePortal(this, game.config.width + 1150, game.config.height/2-23 , 'revivePort').setOrigin(0.5,0.5);
         // this.revivePort.setImmovable(true);
         // this.revivePort.body.allowGravity = false; 
@@ -169,9 +177,9 @@ class Play extends Phaser.Scene {
         });
 
         //create particle emitter(s)
-        this.particle = this.add.particles('bloodParticle');
+        this.bloodParticle = this.add.particles('bloodParticle');
         //his.particle = this.add.particles('particleOrange');
-        this.bloodEmitter = this.particle.createEmitter({
+        this.bloodEmitter = this.bloodParticle.createEmitter({
             x: 0,
             y: 0,
             speed: { min: -400, max: 400 },
@@ -265,21 +273,6 @@ class Play extends Phaser.Scene {
         }
     }
 
-    //collision is now checked in the create function
-    // checkCollision(player, enemy) {
-    //     // simple AABB checking
-    //     if (this.player.x < this.enemy01.x + this.enemy01.width && 
-    //         this.player.x + this.player.width > this.enemy01.x && 
-    //         this.player.y < this.enemy01.y + this.enemy01.height &&
-    //         this.player.height + this.player.y > this.enemy01.y) 
-    //     {
-    //         return true;
-    //     } 
-    //     else {
-    //         return false;
-    //     }
-    // }
-
     enemyHit(player, enemy) {
         if(!this.player.isDead){
             // check for player hopping on enemy
@@ -290,7 +283,7 @@ class Play extends Phaser.Scene {
                 //this.bloodEmitter.setPosition(enemy.x, enemy.y);
                 this.bloodEmitter.active = true;
                 this.bloodEmitter.explode(100,enemy.x, enemy.y);
-                this.bloodEmitter.setGravityX(-1050);
+                this.bloodEmitter.setGravityX(-enemy.moveSpeed * 100);
                 // this.bloodEmitter.setVelocityX(-game.settings.enemySpeed);
                 this.player.setVelocityY(-450);
                 // collect ability
@@ -325,9 +318,9 @@ class Play extends Phaser.Scene {
             // End game
             this.player.handleDeathSFX(true);
             this.player.handleRunSFX(false);
+            this.gameOver = true;
             this.aliveMusic.stop();
             this.deadMusic.stop();
-            this.gameOver = true;
             this.scene.start('menuScene');
             // this.scene.start('gameOverScene');
             }
@@ -399,18 +392,19 @@ class Play extends Phaser.Scene {
         if(!this.player.isDead){
             if(randValue <= 2){
                 // get and create last enemy in group array
-                var newEnemy = this.enemies.create(game.config.width + 50, game.config.height/2 -100, 'enemy').setOrigin(0.5, 0);
+                var newEnemy = this.enemies.create(game.config.width + 50, game.config.height/2 -75, 'enemy').setOrigin(0.5, 0);
                 this.physics.add.collider(newEnemy, this.floor);
                 this.physics.add.collider(this.player, newEnemy, this.enemyHit, null, this); // calls the enemyHit function on collision with player
-                
+                newEnemy.setBodySize(30,69);
                 console.log("enemy add");
             }
             // spawn faster enemy
             else if(randValue == 3){
                 // get and create last enemy in group array
-                var newEnemyFast = this.enemiesFast.create(game.config.width + 50, game.config.height/2 -100, 'enemyFast').setOrigin(0.5, 0);
+                var newEnemyFast = this.enemiesFast.create(game.config.width + 60, game.config.height/2 -40, 'enemyFast').setOrigin(0.5, .5);
                 this.physics.add.collider(newEnemyFast, this.floor);
                 this.physics.add.collider(this.player, newEnemyFast, this.enemyHit, null, this); // calls the enemyHit function on collision with player
+                newEnemyFast.setBodySize(45,50);
                 
                 console.log("enemy add fast");
             }
@@ -422,18 +416,22 @@ class Play extends Phaser.Scene {
         if (this.player.isDead){
             if(randValue >= 1 && randValue != 4 && this.player.isDead){
                 // spawn upside-down enemies
-                var newEnemyFlipY = this.enemies.create(game.config.width + 50, game.config.height/2 +20, 'enemy').setOrigin(0.5, 0);
+                var newEnemyFlipY = this.enemies.create(game.config.width + 50, game.config.height/2 +40, 'enemy').setOrigin(0.5, 0);
                 newEnemyFlipY.handleUpsideDown(true);
                 this.physics.add.collider(newEnemyFlipY, this.floor);
                 this.physics.add.collider(this.player, newEnemyFlipY, this.enemyHit, null, this); // calls the enemyHit function on collision with player
+                newEnemyFlipY.setBodySize(30,69);
+
                 console.log("enemy add Bottom");
 
                 // spawn fast enemy
                 if (randValue >= 3){
-                    var newEnemyFlipYFast = this.enemiesFast.create(game.config.width + 50, game.config.height/2 +20, 'enemyFast').setOrigin(0.5, 0);
+                    var newEnemyFlipYFast = this.enemiesFast.create(game.config.width + 60, game.config.height/2 +40, 'enemyFast').setOrigin(0.5, .5);
                     newEnemyFlipYFast.handleUpsideDown(true);
                     this.physics.add.collider(newEnemyFlipYFast, this.floor);
                     this.physics.add.collider(this.player, newEnemyFlipYFast, this.enemyHit, null, this); // calls the enemyHit function on collision with player
+                    newEnemyFlipYFast.setBodySize(45,50);
+
                     console.log("enemy add Bottom");
                 }
             } 
@@ -447,6 +445,8 @@ class Play extends Phaser.Scene {
             this.physics.add.overlap(this.player, newRevPort, this.playerRevive, null, this);
             newRevPort.setImmovable(true);
             newRevPort.body.allowGravity = false; 
+            newRevPort.setBodySize(70, 200);
+            newRevPort.play('idlePort');
 
             this.clockTime = 0;
             this.justSpawnedPortal = true;
