@@ -116,6 +116,7 @@ class Play extends Phaser.Scene {
         this.p1Score = 0;
         this.seconds = 0;
         this.clockScore = 0;
+        this.distance = 0;
         // initialize time
         this.clockTime = 0;
         this.clockSeconds = 0;
@@ -143,8 +144,8 @@ class Play extends Phaser.Scene {
             this.p1Score, menuConfig);
 
         // distance text 
-        this.scoreUI = this.add.text(borderUISize/2, borderUISize + borderPadding*2 - 75, 
-            this.distance, menuConfig);
+        this.distanceUI = this.add.text(game.config.width - borderPadding, borderUISize + borderPadding*2 - 75, 
+            'Meters: ' + this.distance, menuConfig).setOrigin(1,0);
 
         // declare timer
         this.delayRunningSfx;
@@ -202,6 +203,7 @@ class Play extends Phaser.Scene {
             } else {
                 this.clockScore = 15 + game.settings.enemySpeed - 7;
             }
+            this.distance += 1 + game.settings.enemySpeed - 7;
             this.p1Score += 1;
         }
 
@@ -224,21 +226,12 @@ class Play extends Phaser.Scene {
             this.spawnEnemyTop(this.random);
             this.spawnEnemyBot(this.random);
             this.spawnPortal(this.random);
-            // if(this.random == 1){
-            //  this.enemy01 = new Enemy(this, game.config.width + 50, game.config.height/2 -100, 'enemy01').setOrigin(0.5, 0);
-            //  console.log("enemy add");
-            // }
-            // if(this.random == 2){
-            //     this.revivePort1 = new RevivePortal(this, game.config.width + 1150, game.config.height/2-23 , 'revivePort').setOrigin(0.5,0.5);
-            //     this.revivePort1.setImmovable(true);
-            //     this.revivePort1.body.allowGravity = false; 
-            //     console.log("respawn add");
-            //    }
             this.counter = 0;
         }
  
         // update score
-        this.scoreUI.text = this.p1Score;
+        this.scoreUI.text = 'Score: ' + this.p1Score;
+        this.distanceUI.text = 'Meters: ' + this.distance.toFixed(2);
  
         // update game objects
         if (!this.gameOver) {
@@ -344,7 +337,7 @@ class Play extends Phaser.Scene {
     collectAbility(){
         if(!this.player.reviveAbility){
             this.player.reviveAbility = true;
-            this.ability1 = this.physics.add.sprite(game.config.width - 120, borderUISize, 'ability1').setOrigin(0, .5);
+            this.ability1 = this.physics.add.sprite(game.config.width/2, borderUISize, 'ability1').setOrigin(0.5, .5);
             this.ability1.setImmovable(true);
             this.ability1.body.allowGravity = false;
             this.player.handleAbility();
