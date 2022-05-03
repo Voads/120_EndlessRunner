@@ -114,9 +114,11 @@ class Play extends Phaser.Scene {
 
         // initialize score
         this.p1Score = 0;
+        this.seconds = 0;
         this.clockScore = 0;
         // initialize time
         this.clockTime = 0;
+        this.clockSeconds = 0;
         // initialize counter
         this.counter = 0;
         this.random = 0;
@@ -139,6 +141,10 @@ class Play extends Phaser.Scene {
         // score text
         this.scoreUI = this.add.text(borderUISize/2, borderUISize + borderPadding*2 - 75, 
             this.p1Score, menuConfig);
+
+        // distance text 
+        this.scoreUI = this.add.text(borderUISize/2, borderUISize + borderPadding*2 - 75, 
+            this.distance, menuConfig);
 
         // declare timer
         this.delayRunningSfx;
@@ -179,24 +185,35 @@ class Play extends Phaser.Scene {
  
     update(){                
         //keep track of time
-        this.clockScore += 1; //keep track of player score/distance
-        this.clockTime += 1; //control spawns
+        this.clockScore += 1; // keeps track of player score
+        this.clockTime += 1;  // controls spawns
+        this.clockSeconds += 1; // keeps track of time
         this.counter += 1;
 
+        if (this.clockSeconds >= 60){
+            this.seconds += 1;
+            this.clockSeconds = 0;
+        }
+        
         // 1 second timer 60 fps
         if(this.clockScore >= 60){
+            if (!this.player.isDead){
+                this.clockScore = 0 + game.settings.enemySpeed - 7;
+            } else {
+                this.clockScore = 15 + game.settings.enemySpeed - 7;
+            }
             this.p1Score += 1;
-            this.clockScore = 0;
         }
 
         // spawn timer 
         if(this.clockTime >= 60){
             console.log(this.clockTime);
         
-            if (this.p1Score > 13){
+            // increase speed at 13 seconds, then every 10 seconds
+            if (this.seconds > 13){
                 this.clockTime = 25;
-                if (this.p1Score <= 51){
-                    game.settings.enemySpeed = 7 + this.p1Score/10  
+                if (this.seconds <= 51){
+                    game.settings.enemySpeed = 7 + this.seconds/10  
                 }
             } else{
                 this.clockTime = 0;
@@ -276,6 +293,7 @@ class Play extends Phaser.Scene {
             if(enemy.body.touching.up && !player.isGrounded){
                 this.enemySplat.play();
                 enemy.destroy();
+                this.p1Score += 5;
                 //this.bloodEmitter.setPosition(enemy.x, enemy.y);
                 this.bloodEmitter.active = true;
                 this.bloodEmitter.explode(100,enemy.x, enemy.y);
