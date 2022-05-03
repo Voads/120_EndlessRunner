@@ -217,11 +217,11 @@ class Play extends Phaser.Scene {
 
         // spawn timer 
         if(this.clockTime >= 60){
-            console.log(this.clockTime);
+            //console.log(this.clockTime);
         
             // increase speed at 13 seconds, then every 10 seconds
             if (this.seconds > 13){
-                this.clockTime = 25;
+                this.clockTime = 15;
                 if (this.seconds <= 51){
                     game.settings.enemySpeed = 7 + this.seconds/10  
                 }
@@ -278,14 +278,15 @@ class Play extends Phaser.Scene {
             // check for player hopping on enemy
             if(enemy.body.touching.up && !player.isGrounded){
                 this.enemySplat.play();
+                this.p1Score += enemy.pointsWorth;
+                console.log('enemy killed: Top ');
                 enemy.destroy();
-                this.p1Score += 5;
                 //this.bloodEmitter.setPosition(enemy.x, enemy.y);
                 this.bloodEmitter.active = true;
                 this.bloodEmitter.explode(100,enemy.x, enemy.y);
                 this.bloodEmitter.setGravityX(-enemy.moveSpeed * 100);
                 // this.bloodEmitter.setVelocityX(-game.settings.enemySpeed);
-                this.player.setVelocityY(-450);
+                this.player.setVelocityY(-550);
                 // collect ability
                 this.randomAbility = Phaser.Math.Between(0, 3);
                 if(this.randomAbility == 1){
@@ -304,11 +305,13 @@ class Play extends Phaser.Scene {
         else{
             if(enemy.body.touching.down){
                 this.enemySplat.play();
+                this.p1Score += enemy.pointsWorth;
+                console.log('enemy killed: Bottom ');
                 enemy.destroy();
                 this.bloodEmitter.active = true;
                 this.bloodEmitter.explode(100,enemy.x, enemy.y);
                 this.bloodEmitter.setGravityX(-1050);
-                this.player.setVelocityY(450);
+                this.player.setVelocityY(550);
                 if(this.randomAbility == 1){
                     this.collectAbility();
                 }
@@ -396,7 +399,7 @@ class Play extends Phaser.Scene {
                 this.physics.add.collider(newEnemy, this.floor);
                 this.physics.add.collider(this.player, newEnemy, this.enemyHit, null, this); // calls the enemyHit function on collision with player
                 newEnemy.setBodySize(30,69);
-                console.log("enemy add");
+                //console.log("enemy add");
             }
             // spawn faster enemy
             else if(randValue == 3){
@@ -406,7 +409,7 @@ class Play extends Phaser.Scene {
                 this.physics.add.collider(this.player, newEnemyFast, this.enemyHit, null, this); // calls the enemyHit function on collision with player
                 newEnemyFast.setBodySize(45,50);
                 
-                console.log("enemy add fast");
+                //console.log("enemy add fast");
             }
         }
     }
@@ -422,7 +425,7 @@ class Play extends Phaser.Scene {
                 this.physics.add.collider(this.player, newEnemyFlipY, this.enemyHit, null, this); // calls the enemyHit function on collision with player
                 newEnemyFlipY.setBodySize(30,69);
 
-                console.log("enemy add Bottom");
+                //console.log("enemy add Bottom");
 
                 // spawn fast enemy
                 if (randValue >= 3){
@@ -432,7 +435,7 @@ class Play extends Phaser.Scene {
                     this.physics.add.collider(this.player, newEnemyFlipYFast, this.enemyHit, null, this); // calls the enemyHit function on collision with player
                     newEnemyFlipYFast.setBodySize(45,50);
 
-                    console.log("enemy add Bottom");
+                    //console.log("enemy add Bottom");
                 }
             } 
         }
@@ -454,7 +457,7 @@ class Play extends Phaser.Scene {
             //set the delay so portals don't spawn too often
             this.delayClock = this.time.addEvent({delay: 15 * 600, callback: () =>{
                 
-                console.log('setting justSpawned to false');
+                //console.log('setting justSpawned to false');
                 this.justSpawnedPortal = false;
             }, callbackScope: this, repeat: 0});
         }

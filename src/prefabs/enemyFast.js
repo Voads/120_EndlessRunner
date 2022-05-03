@@ -7,7 +7,8 @@ class EnemyFast extends Phaser.Physics.Arcade.Sprite{
         // requied to extend arcade physics class
         scene.physics.add.existing(this);
         
-        this.moveSpeed = game.settings.enemySpeed + 4;
+        this.moveSpeed = game.settings.enemySpeed + 3;
+        this.pointsWorth = 4;
         //this.upsideDown = false;
         this.gravity = 600; 
         this.setCollideWorldBounds(false);
